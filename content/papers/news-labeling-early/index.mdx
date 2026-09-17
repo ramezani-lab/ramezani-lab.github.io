@@ -1,0 +1,45 @@
+---
+title: "News Labeling as Early as Possible: Real or Fake?"
+abstract: >-
+  The time gap between a news item's release and the detection of its label is
+  a significant step towards broadcasting real information and avoiding fake
+  news, but there is a trade-off between minimising that gap and maximising
+  accuracy. We focus on accurate early labelling of news and propose a model
+  that considers earliness both in modelling and in prediction, using
+  recurrent neural networks with a novel loss function and a new stopping
+  rule. Given the context of the news, we first embed it with a class-specific
+  text representation, then use the available public profile of users and the
+  speed of news diffusion for early labelling. Experiments on real datasets
+  demonstrate effectiveness in both earliness and accuracy compared to state-
+  of-the-art baselines.
+authors:
+  - "maryam-ramezani"
+  - "Mina Rafiei"
+  - "Soroush Omranpour"
+  - "Hamid R. Rabiee"
+year: 2019
+date: "2019-08-27"
+venue:
+  name: "IEEE/ACM International Conference on Advances in Social Networks Analysis and Mining"
+  short: "ASONAM"
+  type: conference
+status: published
+tags:
+  - "Fake News"
+  - "Early Detection"
+  - "Recurrent Neural Networks"
+  - "Social Media"
+areas:
+  - trustworthy-ai
+links:
+  - type: arxiv
+    url: https://arxiv.org/abs/1906.03423
+---
+
+Detecting fake news accurately is easier the longer you wait, and useless if you
+wait too long. This paper makes that trade-off explicit: earliness enters both
+the loss function and the stopping rule, so the model decides when it has seen
+enough of a cascade to commit to a label.
+
+The signals are the text of the news, the public profiles of the users spreading
+it, and the speed of its diffusion.

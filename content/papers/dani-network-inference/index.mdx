@@ -1,0 +1,61 @@
+---
+title: "DANI: Fast Diffusion Aware Network Inference with Preserving Topological Structure Property"
+abstract: >-
+  Numerous algorithms have been proposed to infer the underlying structure of
+  social networks via observed information propagation. Previously proposed
+  algorithms concentrate on inferring accurate links and neglect preserving
+  the essential topological properties of the underlying social networks. We
+  propose a novel method called DANI to infer the underlying network while
+  preserving its structural properties. DANI is constructed using the Markov
+  transition matrix derived from the analysis of time series cascades and the
+  observation of node-node similarity in cascade behaviour from a structural
+  perspective. The presented method has linear time complexity, and its
+  distributed version in the MapReduce framework is scalable. Experiments on
+  real and synthetic networks show that DANI has higher accuracy and lower run
+  time than well-known network inference methods, while preserving modular
+  structure, degree distribution, connected components, density and clustering
+  coefficients.
+authors:
+  - "maryam-ramezani"
+  - "Aryan Ahadinia"
+  - "Erfan Farhadi"
+  - "Hamid R. Rabiee"
+year: 2024
+date: "2024-12-28"
+venue:
+  name: "Scientific Reports"
+  short: "Sci Rep"
+  type: journal
+status: published
+featured: true
+tags:
+  - "Network Inference"
+  - "Information Diffusion"
+  - "Graph Mining"
+  - "Social Networks"
+areas:
+  - complex-networks
+links:
+  - type: doi
+    url: https://doi.org/10.1038/s41598-024-82286-x
+  - type: publisher
+    url: https://www.nature.com/articles/s41598-024-82286-x
+  - type: arxiv
+    url: https://arxiv.org/abs/2310.01696
+  - type: code
+    url: https://github.com/AryanAhadinia/DANI
+---
+
+DANI infers a social network from the cascades that travel over it. Where
+earlier inference methods optimise only for recovering individual links, DANI
+also preserves the properties that make the recovered graph usable for anything
+else: its modular structure, its degree distribution, its density and its
+clustering coefficients.
+
+The method combines two signals: a Markov transition matrix built from the
+timing of cascades, and a structural similarity between nodes computed from how
+they behave across cascades. Its complexity is linear in the number of nodes and
+cascades and quadratic in the average cascade length, and the MapReduce version
+scales to larger graphs.
+
+The implementation is [available on GitHub](https://github.com/AryanAhadinia/DANI).

@@ -1,0 +1,18 @@
+---
+title: Machine Learning for Systems
+summary: Learned components inside data systems — query optimization, indexing, caching and configuration tuning.
+order: 2
+icon: cpu
+people: [maryam-ramezani]
+---
+
+Database engines are full of decisions made by hand-written heuristics: which
+join order to pick, what to index, what to keep in memory, how to set hundreds
+of configuration knobs. Each of those is a prediction problem with a measurable
+cost, which makes them natural targets for learning.
+
+Our interest is in learned components that survive production: models that
+adapt as workloads drift, that degrade gracefully when their predictions are
+wrong, and whose training cost is small enough to be worth paying. We study
+learned query optimization and cost estimation, workload-aware indexing and
+caching, and automatic configuration tuning.

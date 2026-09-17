@@ -1,0 +1,49 @@
+---
+title: "Joint Inference of Diffusion and Structure in Partially Observed Social Networks Using Coupled Matrix Factorization"
+abstract: >-
+  Access to complete data in large-scale networks is often infeasible, so
+  missing data is an unavoidable issue in the analysis of real-world social
+  networks. In this paper, a model is learned from partially observed data to
+  infer unobserved diffusion and structure networks. To jointly discover
+  omitted diffusion activities and hidden network structures, we develop a
+  probabilistic generative model called DiffStru. The interrelations among
+  links of nodes and cascade processes are utilised via learning coupled low-
+  dimensional latent factors. Besides inferring unseen data, latent factors
+  such as community detection may also aid in network classification problems.
+  Experiments on simulated independent cascades over LFR networks and on real
+  datasets including Twitter and Memetracker show that the proposed method
+  successfully detects invisible social behaviours, predicts links, and
+  identifies latent features.
+authors:
+  - "maryam-ramezani"
+  - "Aryan Ahadinia"
+  - "Amirmohammad Ziaei Bideh"
+  - "Hamid R. Rabiee"
+year: 2023
+date: "2023-07-18"
+venue:
+  name: "ACM Transactions on Knowledge Discovery from Data"
+  short: "ACM TKDD"
+  type: journal
+status: published
+featured: true
+tags:
+  - "Missing Data"
+  - "Matrix Factorization"
+  - "Information Diffusion"
+  - "Social Networks"
+areas:
+  - complex-networks
+links:
+  - type: arxiv
+    url: https://arxiv.org/abs/2010.01400
+---
+
+DiffStru treats the two things we usually cannot observe — who is connected to
+whom, and which diffusion events actually happened — as a single joint problem
+rather than two separate ones.
+
+The model couples low-dimensional latent factors across the link structure and
+the cascade process, so evidence about one side constrains the other. The same
+factors turn out to be useful beyond imputation: they carry community structure
+that can be reused for classification.

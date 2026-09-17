@@ -9,8 +9,9 @@ import remarkMath from "remark-math";
  * Shared MDX plugin chain, used by every content route so biographies, papers,
  * news and research pages render identically. Math via KaTeX, code via Shiki.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const mdxOptions: any = {
+/* The plugin tuple types from the unified ecosystem do not line up with what
+   next-mdx-remote-client expects, so the chain is typed loosely here. */
+export const mdxOptions = {
   remarkPlugins: [remarkGfm, remarkMath],
   rehypePlugins: [
     rehypeSlug,
@@ -28,4 +29,4 @@ export const mdxOptions: any = {
     ],
     rehypeKatex,
   ],
-};
+} as never;

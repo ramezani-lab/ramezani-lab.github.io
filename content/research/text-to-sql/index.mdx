@@ -1,0 +1,18 @@
+---
+title: Text-to-SQL and Data Interfaces
+summary: Turning questions in plain language into correct queries over real schemas, and knowing when the answer cannot be trusted.
+order: 1
+icon: database
+people: [maryam-ramezani]
+---
+
+Most data in an organisation is locked behind a query language that few of its
+people write. Text-to-SQL promises to remove that barrier, but a model that
+produces plausible SQL is not enough: the query has to be correct against a
+schema it has never seen, it has to run efficiently, and the system has to
+recognise when a question is ambiguous or unanswerable.
+
+We work on the parts of that problem where data, not model size, is the
+bottleneck: schema representation and linking, synthesising training data that
+reflects real schemas, execution-grounded evaluation, and calibration so a
+system can say "I am not sure" rather than return a wrong table.

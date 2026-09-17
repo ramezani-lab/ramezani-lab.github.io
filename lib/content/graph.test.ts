@@ -116,3 +116,17 @@ describe("buildGraph", () => {
     expect(graph.papersBySlug.get("p2")!.bibtex).toBe("@misc{custom}");
   });
 });
+
+describe("courses", () => {
+  it("rejects two courses that resolve to the same anchor", () => {
+    const duplicate = {
+      title: "Sample course",
+      level: "graduate" as const,
+      description: "",
+      offerings: [],
+    };
+    expect(() =>
+      buildGraph(fixture({ courses: [duplicate, { ...duplicate }] })),
+    ).toThrow(/duplicate course/);
+  });
+});
