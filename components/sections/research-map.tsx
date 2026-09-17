@@ -43,7 +43,7 @@ export function ResearchMap({ areas }: { areas: ResearchArea[] }) {
 
   return (
     <svg
-      viewBox="0 0 760 560"
+      viewBox="10 40 740 480"
       className="daisy-map h-auto w-full"
       role="group"
       aria-label="Research areas"
@@ -66,10 +66,20 @@ export function ResearchMap({ areas }: { areas: ResearchArea[] }) {
         const node = NODES[index];
         const lines = labelLines(area.title);
         return (
-          <Link key={area.slug} href={area.url} className="daisy-map-node group">
+          <Link
+            key={area.slug}
+            href={area.url}
+            className="daisy-map-node group"
+          >
             {/* A transparent hit area keeps the whole label clickable. */}
             <rect
-              x={node.anchor === "end" ? node.lx - 220 : node.anchor === "start" ? node.lx - 10 : node.lx - 110}
+              x={
+                node.anchor === "end"
+                  ? node.lx - 220
+                  : node.anchor === "start"
+                    ? node.lx - 10
+                    : node.lx - 110
+              }
               y={node.ly - 26}
               width={node.anchor === "middle" ? 220 : 230}
               height="52"
@@ -86,7 +96,7 @@ export function ResearchMap({ areas }: { areas: ResearchArea[] }) {
               x={node.lx}
               y={node.ly}
               textAnchor={node.anchor}
-              className="fill-foreground text-[15px] font-medium transition-colors group-hover:fill-primary-ink"
+              className="fill-foreground text-[16px] font-medium transition-colors group-hover:fill-primary-ink"
             >
               {lines.map((line, lineIndex) => (
                 <tspan

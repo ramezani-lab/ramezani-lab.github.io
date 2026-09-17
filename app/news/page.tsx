@@ -16,9 +16,14 @@ export default function NewsPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4">
-      <PageHeader title="News" lead="Papers, talks, theses and announcements from the lab." />
+      <PageHeader
+        title="News"
+        lead="Papers, talks, theses and announcements from the lab."
+      />
       {news.length === 0 ? (
-        <p className="py-16 text-sm text-muted-foreground">Nothing published yet.</p>
+        <p className="py-16 text-sm text-muted-foreground">
+          Nothing published yet.
+        </p>
       ) : (
         <ul className="divide-y">
           {news.map((item) => (

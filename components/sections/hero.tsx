@@ -19,7 +19,10 @@ export function Hero({ areas }: { areas: ResearchArea[] }) {
         </p>
 
         <div className="mt-9 flex flex-wrap gap-3">
-          <Button size="lg" render={<Link href="/papers">Read our publications</Link>} />
+          <Button
+            size="lg"
+            render={<Link href="/papers">Read our publications</Link>}
+          />
           <Button
             size="lg"
             variant="outline"

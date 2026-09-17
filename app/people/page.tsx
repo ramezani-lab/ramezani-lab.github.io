@@ -27,13 +27,18 @@ function DirectorCard({ person }: { person: Person }) {
       </Link>
       <div>
         <h3 className="text-2xl font-semibold tracking-tight">
-          <Link href={person.url} className="transition-colors hover:text-primary-ink">
+          <Link
+            href={person.url}
+            className="transition-colors hover:text-primary-ink"
+          >
             {person.name}
           </Link>
         </h3>
         <p className="mt-1 text-muted-foreground">{person.title}</p>
         {person.summary ? (
-          <p className="mt-4 max-w-2xl font-serif leading-relaxed">{person.summary}</p>
+          <p className="mt-4 max-w-2xl font-serif leading-relaxed">
+            {person.summary}
+          </p>
         ) : null}
         <SocialLinks
           socials={person.socials}
@@ -76,7 +81,9 @@ function AlumniTable({ people }: { people: Person[] }) {
               <td className="py-3 pe-4 font-mono text-xs text-muted-foreground">
                 {formatYearRange(person.startYear, person.endYear) || "—"}
               </td>
-              <td className="py-3 text-muted-foreground">{person.nextPosition ?? "—"}</td>
+              <td className="py-3 text-muted-foreground">
+                {person.nextPosition ?? "—"}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -98,7 +105,9 @@ export default function PeoplePage() {
       <div className="divide-y">
         {groups.map((group) => (
           <section key={group.role} className="py-12">
-            <h2 className="text-xl font-semibold tracking-tight">{group.label}</h2>
+            <h2 className="text-xl font-semibold tracking-tight">
+              {group.label}
+            </h2>
 
             <div className="mt-8">
               {group.role === "director" ? (

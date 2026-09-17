@@ -12,7 +12,12 @@ import { fileURLToPath } from "node:url";
 import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
 
-import { getAllNews, getAllPapers, getAllPeople, ROLE_LABELS } from "../lib/content";
+import {
+  getAllNews,
+  getAllPapers,
+  getAllPeople,
+  ROLE_LABELS,
+} from "../lib/content";
 import { formatDate } from "../lib/format";
 import { SITE } from "../lib/site";
 
@@ -54,7 +59,10 @@ function loadFont(name: string, weight: number): Buffer {
 function loadImage(publicPath?: string): string | undefined {
   if (!publicPath?.startsWith("/")) return undefined;
   const extension = publicPath.split(".").pop()?.toLowerCase();
-  if (!extension || !["png", "jpg", "jpeg", "gif", "webp"].includes(extension)) {
+  if (
+    !extension ||
+    !["png", "jpg", "jpeg", "gif", "webp"].includes(extension)
+  ) {
     return undefined;
   }
   try {
@@ -80,14 +88,26 @@ interface CardInput {
   imageRound?: boolean;
 }
 
-function card({ kind, title, subtitle, meta, image, imageRound }: CardInput): Element {
+function card({
+  kind,
+  title,
+  subtitle,
+  meta,
+  image,
+  imageRound,
+}: CardInput): Element {
   const titleSize = title.length > 90 ? 44 : title.length > 55 ? 52 : 62;
   const textWidth = image ? 640 : 1000;
 
   const column: unknown[] = [
     el(
       "div",
-      { display: "flex", fontSize: 22, color: COLORS.muted, letterSpacing: 0.5 },
+      {
+        display: "flex",
+        fontSize: 22,
+        color: COLORS.muted,
+        letterSpacing: 0.5,
+      },
       kind,
     ),
     el(
@@ -137,13 +157,18 @@ function card({ kind, title, subtitle, meta, image, imageRound }: CardInput): El
 
   if (image) {
     body.push(
-      el("img", {
-        width: 300,
-        height: 300,
-        objectFit: "cover",
-        borderRadius: imageRound ? 150 : 16,
-        border: `1px solid ${COLORS.border}`,
-      }, undefined, { src: image }),
+      el(
+        "img",
+        {
+          width: 300,
+          height: 300,
+          objectFit: "cover",
+          borderRadius: imageRound ? 150 : 16,
+          border: `1px solid ${COLORS.border}`,
+        },
+        undefined,
+        { src: image },
+      ),
     );
   }
 
@@ -187,12 +212,22 @@ function card({ kind, title, subtitle, meta, image, imageRound }: CardInput): El
           el("img", { width: 44, height: 44 }, undefined, { src: MARK_URI }),
           el(
             "div",
-            { display: "flex", fontSize: 24, fontWeight: 600, color: COLORS.foreground },
+            {
+              display: "flex",
+              fontSize: 24,
+              fontWeight: 600,
+              color: COLORS.foreground,
+            },
             SITE.fullName,
           ),
           el(
             "div",
-            { display: "flex", marginLeft: "auto", fontSize: 20, color: COLORS.muted },
+            {
+              display: "flex",
+              marginLeft: "auto",
+              fontSize: 20,
+              color: COLORS.muted,
+            },
             meta ?? SITE.university.name,
           ),
         ],
@@ -202,14 +237,35 @@ function card({ kind, title, subtitle, meta, image, imageRound }: CardInput): El
 }
 
 const fonts = [
-  { name: "Instrument Sans", data: loadFont("InstrumentSans", 400), weight: 400 as const, style: "normal" as const },
-  { name: "Instrument Sans", data: loadFont("InstrumentSans", 600), weight: 600 as const, style: "normal" as const },
-  { name: "Newsreader", data: loadFont("Newsreader", 400), weight: 400 as const, style: "normal" as const },
+  {
+    name: "Instrument Sans",
+    data: loadFont("InstrumentSans", 400),
+    weight: 400 as const,
+    style: "normal" as const,
+  },
+  {
+    name: "Instrument Sans",
+    data: loadFont("InstrumentSans", 600),
+    weight: 600 as const,
+    style: "normal" as const,
+  },
+  {
+    name: "Newsreader",
+    data: loadFont("Newsreader", 400),
+    weight: 400 as const,
+    style: "normal" as const,
+  },
 ];
 
 async function render(input: CardInput, file: string) {
-  const svg = await satori(card(input) as never, { width: WIDTH, height: HEIGHT, fonts });
-  const png = new Resvg(svg, { fitTo: { mode: "width", value: WIDTH } }).render().asPng();
+  const svg = await satori(card(input) as never, {
+    width: WIDTH,
+    height: HEIGHT,
+    fonts,
+  });
+  const png = new Resvg(svg, { fitTo: { mode: "width", value: WIDTH } })
+    .render()
+    .asPng();
   writeFileSync(join(OUT_DIR, file), png);
 }
 
@@ -218,7 +274,11 @@ async function main() {
   let count = 0;
 
   await render(
-    { kind: SITE.tagline, title: "Data-centric AI systems, built to survive real data.", subtitle: SITE.mission },
+    {
+      kind: SITE.tagline,
+      title: "Data-centric AI systems, built to survive real data.",
+      subtitle: SITE.mission,
+    },
     "default.png",
   );
   count++;
@@ -229,7 +289,9 @@ async function main() {
         kind: paper.venue.name,
         title: paper.title,
         subtitle: paper.authors
-          .map((author) => (author.kind === "member" ? author.person.name : author.name))
+          .map((author) =>
+            author.kind === "member" ? author.person.name : author.name,
+          )
           .join(", "),
         meta: String(paper.year),
         image: loadImage(paper.cover),
@@ -245,7 +307,10 @@ async function main() {
         kind: person.title ?? ROLE_LABELS[person.role],
         title: person.name,
         subtitle: person.summary || person.interests.slice(0, 3).join(" · "),
-        meta: person.papers.length > 0 ? `${person.papers.length} publications` : undefined,
+        meta:
+          person.papers.length > 0
+            ? `${person.papers.length} publications`
+            : undefined,
         image: loadImage(person.image),
         imageRound: true,
       },

@@ -37,7 +37,9 @@ export const paper = (slug: string, extra: Record<string, unknown>) =>
 export function fixture(over: Partial<RawContent> = {}): RawContent {
   return {
     people: [
-      person("ramezani", "Maryam Ramezani", "director", { image: "./photo.jpg" }),
+      person("ramezani", "Maryam Ramezani", "director", {
+        image: "./photo.jpg",
+      }),
       person("ali", "Ali Student", "phd"),
     ],
     research: [
@@ -75,10 +77,12 @@ export function fixture(over: Partial<RawContent> = {}): RawContent {
       ),
     ],
     positions: [
-      doc("phd", positionFrontmatterSchema.parse({ title: "PhD", level: "phd" })),
+      doc(
+        "phd",
+        positionFrontmatterSchema.parse({ title: "PhD", level: "phd" }),
+      ),
     ],
     courses: [],
     ...over,
   };
 }
-

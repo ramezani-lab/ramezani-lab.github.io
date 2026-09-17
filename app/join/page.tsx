@@ -38,9 +38,15 @@ export default function JoinPage() {
       <div className="grid gap-16 py-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-20">
         <div className="min-w-0 divide-y">
           {positions.map((position) => (
-            <section key={position.slug} id={position.slug} className="scroll-mt-24 py-8">
+            <section
+              key={position.slug}
+              id={position.slug}
+              className="scroll-mt-24 py-8"
+            >
               <div className="flex flex-wrap items-center gap-3">
-                <h2 className="text-xl font-semibold tracking-tight">{position.title}</h2>
+                <h2 className="text-xl font-semibold tracking-tight">
+                  {position.title}
+                </h2>
                 <span className="rounded-full border px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
                   {LEVEL_LABELS[position.level]}
                 </span>
@@ -81,17 +87,18 @@ export default function JoinPage() {
             <h2 className="font-semibold">How to apply</h2>
             <ol className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
               <li>
-                <span className="font-medium text-foreground">1.</span> Read a couple of
-                the lab&apos;s recent papers and decide which direction interests you.
+                <span className="font-medium text-foreground">1.</span> Read a
+                couple of the lab&apos;s recent papers and decide which
+                direction interests you.
               </li>
               <li>
                 <span className="font-medium text-foreground">2.</span> Email{" "}
-                {director.name} with your CV, transcript, and a short paragraph on what
-                you want to work on and why.
+                {director.name} with your CV, transcript, and a short paragraph
+                on what you want to work on and why.
               </li>
               <li>
-                <span className="font-medium text-foreground">3.</span> Include links to
-                code you have written, if you have any.
+                <span className="font-medium text-foreground">3.</span> Include
+                links to code you have written, if you have any.
               </li>
             </ol>
             <a

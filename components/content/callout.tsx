@@ -20,7 +20,8 @@ const callout = cva(
         tip: "border-border border-s-primary bg-primary-soft",
         warning:
           "border-border border-s-[oklch(0.72_0.15_60)] bg-[oklch(0.72_0.15_60/0.08)]",
-        danger: "border-destructive/25 border-s-destructive bg-destructive/[0.06]",
+        danger:
+          "border-destructive/25 border-s-destructive bg-destructive/[0.06]",
       },
     },
     defaultVariants: { type: "note" },

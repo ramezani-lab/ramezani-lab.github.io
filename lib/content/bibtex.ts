@@ -27,7 +27,11 @@ function keyPart(value: string): string {
 }
 
 /** Conventional citation key: `surname` + `year` + first significant word. */
-export function bibtexKey(authors: string[], year: number, title: string): string {
+export function bibtexKey(
+  authors: string[],
+  year: number,
+  title: string,
+): string {
   const surname = keyPart(authors[0]?.trim().split(/\s+/).pop() ?? "anon");
   const word =
     title
@@ -51,7 +55,13 @@ function arxivIdFrom(links: PaperLink[]): string | undefined {
 }
 
 function primaryUrl(links: PaperLink[]): string | undefined {
-  const order: PaperLink["type"][] = ["paper", "publisher", "arxiv", "pdf", "doi"];
+  const order: PaperLink["type"][] = [
+    "paper",
+    "publisher",
+    "arxiv",
+    "pdf",
+    "doi",
+  ];
   for (const type of order) {
     const link = links.find((item) => item.type === type);
     if (link) return link.url;
@@ -71,7 +81,13 @@ export interface BibtexInput {
  * Builds a BibTeX entry from paper metadata, so authors only write one by hand
  * when they need something this cannot express.
  */
-export function buildBibtex({ title, authors, year, venue, links }: BibtexInput): string {
+export function buildBibtex({
+  title,
+  authors,
+  year,
+  venue,
+  links,
+}: BibtexInput): string {
   const fields: Array<[string, string]> = [
     // Double braces keep acronyms like "SQL" from being lowercased by styles.
     ["title", `{${title}}`],
@@ -113,6 +129,8 @@ export function buildBibtex({ title, authors, year, venue, links }: BibtexInput)
   const url = primaryUrl(links);
   if (url) fields.push(["url", url]);
 
-  const body = fields.map(([name, value]) => `  ${name} = {${value}}`).join(",\n");
+  const body = fields
+    .map(([name, value]) => `  ${name} = {${value}}`)
+    .join(",\n");
   return `@${type}{${bibtexKey(authors, year, title)},\n${body}\n}`;
 }

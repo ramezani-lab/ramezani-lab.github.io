@@ -94,7 +94,10 @@ export default async function PaperPage({
         ])}
       />
 
-      <Link href="/papers" className="link-underline text-sm text-muted-foreground">
+      <Link
+        href="/papers"
+        className="link-underline text-sm text-muted-foreground"
+      >
         Publications
       </Link>
 
@@ -131,9 +134,7 @@ export default async function PaperPage({
           ) : null}
 
           <section>
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-              Abstract
-            </h2>
+            <h2 className="text-lg font-semibold tracking-tight">Abstract</h2>
             <p className="mt-3 max-w-[70ch] font-serif text-lg leading-relaxed">
               {paper.abstract}
             </p>
@@ -146,7 +147,9 @@ export default async function PaperPage({
           />
 
           <section className="mt-14">
-            <h2 className="text-xl font-semibold tracking-tight">Cite this paper</h2>
+            <h2 className="text-xl font-semibold tracking-tight">
+              Cite this paper
+            </h2>
             <div className="mt-4">
               <BibtexBlock bibtex={paper.bibtex} />
             </div>
@@ -195,7 +198,9 @@ export default async function PaperPage({
 
       {related.length > 0 ? (
         <section className="mt-16 border-t pt-4">
-          <h2 className="pt-8 text-xl font-semibold tracking-tight">Related work</h2>
+          <h2 className="pt-8 text-xl font-semibold tracking-tight">
+            Related work
+          </h2>
           <ul className="mt-2 divide-y">
             {related.map((item) => (
               <li key={item.slug}>

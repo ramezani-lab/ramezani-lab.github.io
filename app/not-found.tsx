@@ -18,10 +18,16 @@ export default function NotFound() {
 
       <div className="mt-8 flex flex-wrap gap-3">
         <Button render={<Link href="/papers">Browse publications</Link>} />
-        <Button variant="outline" render={<Link href="/people">Meet the lab</Link>} />
+        <Button
+          variant="outline"
+          render={<Link href="/people">Meet the lab</Link>}
+        />
       </div>
 
-      <nav className="mt-14 flex flex-wrap gap-x-5 gap-y-2 text-sm" aria-label="Site">
+      <nav
+        className="mt-14 flex flex-wrap gap-x-5 gap-y-2 text-sm"
+        aria-label="Site"
+      >
         {NAV_ITEMS.map((item) => (
           <Link
             key={item.href}

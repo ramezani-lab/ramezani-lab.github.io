@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 
 import { PaperBrowser } from "@/components/papers/paper-browser";
 import { PageHeader } from "@/components/layout/page-header";
-import { getAllAreas, getAllPapers, getAllTags, getCurrentMembers } from "@/lib/content";
+import {
+  getAllAreas,
+  getAllPapers,
+  getAllTags,
+  getCurrentMembers,
+} from "@/lib/content";
 import { toPaperSummary } from "@/lib/content/summaries";
 import { buildMetadata } from "@/lib/seo";
 
@@ -20,7 +25,10 @@ export default function PapersPage() {
     .map((person) => ({ value: person.id, label: person.name }));
   const tags = getAllTags()
     .filter((tag) => tag.papers.length > 0)
-    .map((tag) => ({ value: tag.name, label: `${tag.name} (${tag.papers.length})` }));
+    .map((tag) => ({
+      value: tag.name,
+      label: `${tag.name} (${tag.papers.length})`,
+    }));
   const areas = getAllAreas()
     .filter((area) => area.papers.length > 0)
     .map((area) => ({ value: area.slug, label: area.title }));

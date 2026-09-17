@@ -28,7 +28,10 @@ export function formatMonthYear(iso: string): string {
 }
 
 /** "2021–2024", "2023–present"; empty when neither year is known. */
-export function formatYearRange(start?: number | string, end?: number | string): string {
+export function formatYearRange(
+  start?: number | string,
+  end?: number | string,
+): string {
   if (start === undefined && end === undefined) return "";
   if (end === undefined) return `${start}–present`;
   return `${start ?? ""}–${end}`;

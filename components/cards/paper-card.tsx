@@ -32,7 +32,9 @@ export function PaperCard({
   const status = STATUS_LABELS[paper.status];
 
   return (
-    <article className={cn("flex gap-5 py-6", showCover ? "items-start" : null)}>
+    <article
+      className={cn("flex gap-5 py-6", showCover ? "items-start" : null)}
+    >
       {showCover && paper.cover ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -45,12 +47,19 @@ export function PaperCard({
 
       <div className="min-w-0 flex-1">
         <h3 className="text-lg font-semibold leading-snug tracking-tight">
-          <Link href={paper.url} className="transition-colors hover:text-primary-ink">
+          <Link
+            href={paper.url}
+            className="transition-colors hover:text-primary-ink"
+          >
             {paper.title}
           </Link>
         </h3>
 
-        <AuthorList authors={paper.authors} highlight={highlight} className="mt-2" />
+        <AuthorList
+          authors={paper.authors}
+          highlight={highlight}
+          className="mt-2"
+        />
 
         <p className="mt-1.5 text-sm text-muted-foreground">
           <span className="font-serif italic text-foreground/80">
@@ -68,7 +77,9 @@ export function PaperCard({
           ) : null}
         </p>
 
-        {showLinks ? <LinkButtons links={paper.links} size="sm" className="mt-3" /> : null}
+        {showLinks ? (
+          <LinkButtons links={paper.links} size="sm" className="mt-3" />
+        ) : null}
       </div>
     </article>
   );

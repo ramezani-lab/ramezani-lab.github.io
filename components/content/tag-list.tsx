@@ -4,7 +4,13 @@ import { slugify } from "@/lib/slug";
 import { cn } from "@/lib/utils";
 
 /** Tags as links to their listing page. */
-export function TagList({ tags, className }: { tags: string[]; className?: string }) {
+export function TagList({
+  tags,
+  className,
+}: {
+  tags: string[];
+  className?: string;
+}) {
   if (tags.length === 0) return null;
 
   return (

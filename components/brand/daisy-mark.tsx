@@ -17,7 +17,11 @@ interface DaisyMarkProps {
  * ink strokes use `currentColor`, petals use the card surface and the centre
  * uses `--primary`, so changing the brand colour recolours the mark too.
  */
-export function DaisyMark({ className, animated = false, title }: DaisyMarkProps) {
+export function DaisyMark({
+  className,
+  animated = false,
+  title,
+}: DaisyMarkProps) {
   return (
     <svg
       viewBox="0 0 200 200"

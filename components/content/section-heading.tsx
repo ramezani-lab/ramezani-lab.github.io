@@ -38,7 +38,10 @@ export function SectionHeading({
         ) : null}
       </div>
       {action ? (
-        <Link href={action.href} className="link-underline shrink-0 text-sm font-medium">
+        <Link
+          href={action.href}
+          className="link-underline shrink-0 text-sm font-medium"
+        >
           {action.label}
         </Link>
       ) : null}

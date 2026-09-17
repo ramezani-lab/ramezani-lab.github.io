@@ -28,7 +28,9 @@ export default function TagsPage() {
               className="inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm transition-colors hover:border-primary hover:bg-primary-soft"
             >
               {tag.name}
-              <span className="font-mono text-xs text-muted-foreground">{tag.count}</span>
+              <span className="font-mono text-xs text-muted-foreground">
+                {tag.count}
+              </span>
             </Link>
           </li>
         ))}

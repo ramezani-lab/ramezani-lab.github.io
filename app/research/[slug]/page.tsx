@@ -48,13 +48,18 @@ export default async function ResearchAreaPage({
         ])}
       />
 
-      <Link href="/research" className="link-underline text-sm text-muted-foreground">
+      <Link
+        href="/research"
+        className="link-underline text-sm text-muted-foreground"
+      >
         Research
       </Link>
 
       <header className="mt-6 max-w-3xl">
         <AreaIcon name={area.icon} className="size-8 text-primary-ink" />
-        <h1 className="mt-5 text-4xl font-semibold tracking-tight">{area.title}</h1>
+        <h1 className="mt-5 text-4xl font-semibold tracking-tight">
+          {area.title}
+        </h1>
         <p className="mt-4 font-serif text-lg leading-relaxed text-muted-foreground">
           {area.summary}
         </p>
@@ -83,7 +88,9 @@ export default async function ResearchAreaPage({
 
       {area.people.length > 0 ? (
         <section className="mt-16 border-t pt-4">
-          <h2 className="pt-8 text-xl font-semibold tracking-tight">Who works on this</h2>
+          <h2 className="pt-8 text-xl font-semibold tracking-tight">
+            Who works on this
+          </h2>
           <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
             {area.people.map((person) => (
               <li key={person.id}>

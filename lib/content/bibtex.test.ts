@@ -5,7 +5,11 @@ import { bibtexKey, buildBibtex } from "./bibtex";
 describe("bibtexKey", () => {
   it("uses first author surname, year, first significant title word", () => {
     expect(
-      bibtexKey(["Maryam Ramezani", "Hamid R. Rabiee"], 2024, "The DANI: fast inference"),
+      bibtexKey(
+        ["Maryam Ramezani", "Hamid R. Rabiee"],
+        2024,
+        "The DANI: fast inference",
+      ),
     ).toBe("ramezani2024dani");
   });
 

@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildGraph } from "./graph";
-import {
-  newsFrontmatterSchema,
-  researchFrontmatterSchema,
-} from "./schema";
+import { newsFrontmatterSchema, researchFrontmatterSchema } from "./schema";
 import { doc, fixture, paper, person } from "./testing";
 
 describe("buildGraph", () => {
@@ -21,17 +18,18 @@ describe("buildGraph", () => {
 
   it("fills inverse relations", () => {
     const graph = buildGraph(fixture());
-    expect(graph.peopleById.get("ramezani")!.papers.map((p) => p.slug)).toEqual([
-      "p1",
-      "p2",
+    expect(graph.peopleById.get("ramezani")!.papers.map((p) => p.slug)).toEqual(
+      ["p1", "p2"],
+    );
+    expect(graph.peopleById.get("ali")!.news.map((n) => n.slug)).toEqual([
+      "n1",
     ]);
-    expect(graph.peopleById.get("ali")!.news.map((n) => n.slug)).toEqual(["n1"]);
     expect(graph.peopleById.get("ali")!.areas.map((a) => a.slug)).toEqual([
       "text-to-sql",
     ]);
-    expect(graph.areasBySlug.get("text-to-sql")!.papers.map((p) => p.slug)).toEqual(
-      ["p1"],
-    );
+    expect(
+      graph.areasBySlug.get("text-to-sql")!.papers.map((p) => p.slug),
+    ).toEqual(["p1"]);
   });
 
   it("counts tags across papers and news", () => {
@@ -83,7 +81,11 @@ describe("buildGraph", () => {
       research: [
         doc(
           "r",
-          researchFrontmatterSchema.parse({ title: "R", summary: "s", people: ["ghost"] }),
+          researchFrontmatterSchema.parse({
+            title: "R",
+            summary: "s",
+            people: ["ghost"],
+          }),
         ),
       ],
     });

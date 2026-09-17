@@ -58,9 +58,12 @@ function describeError(error: unknown): string {
     "issues" in error &&
     Array.isArray((error as { issues: unknown }).issues)
   ) {
-    return (error as { issues: Array<{ path: PropertyKey[]; message: string }> })
-      .issues.map(
-        (issue) => `  ${issue.path.map(String).join(".") || "(root)"}: ${issue.message}`,
+    return (
+      error as { issues: Array<{ path: PropertyKey[]; message: string }> }
+    ).issues
+      .map(
+        (issue) =>
+          `  ${issue.path.map(String).join(".") || "(root)"}: ${issue.message}`,
       )
       .join("\n");
   }
@@ -86,9 +89,16 @@ function readCollection<T>(
     const file = relative(process.cwd(), path);
     const parsed = matter(readFileSync(path, "utf8"));
     try {
-      docs.push({ slug, file, frontmatter: parse(parsed.data), body: parsed.content });
+      docs.push({
+        slug,
+        file,
+        frontmatter: parse(parsed.data),
+        body: parsed.content,
+      });
     } catch (error) {
-      throw new Error(`invalid frontmatter in ${file}:\n${describeError(error)}`);
+      throw new Error(
+        `invalid frontmatter in ${file}:\n${describeError(error)}`,
+      );
     }
   }
   return docs;
@@ -96,8 +106,12 @@ function readCollection<T>(
 
 export function readContent(root: string = CONTENT_DIR): RawContent {
   return {
-    people: readCollection(root, "people", (d) => personFrontmatterSchema.parse(d)),
-    papers: readCollection(root, "papers", (d) => paperFrontmatterSchema.parse(d)),
+    people: readCollection(root, "people", (d) =>
+      personFrontmatterSchema.parse(d),
+    ),
+    papers: readCollection(root, "papers", (d) =>
+      paperFrontmatterSchema.parse(d),
+    ),
     news: readCollection(root, "news", (d) => newsFrontmatterSchema.parse(d)),
     research: readCollection(root, "research", (d) =>
       researchFrontmatterSchema.parse(d),
