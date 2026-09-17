@@ -18,7 +18,9 @@ export function AuthorList({
   highlight?: string;
 }) {
   return (
-    <p className={cn("text-sm leading-relaxed text-muted-foreground", className)}>
+    <p
+      className={cn("text-sm leading-relaxed text-muted-foreground", className)}
+    >
       {authors.map((author, index) => (
         <span key={index}>
           {index > 0 ? ", " : ""}
@@ -27,7 +29,9 @@ export function AuthorList({
               href={author.person.url}
               className={cn(
                 "text-foreground transition-colors hover:text-primary-ink",
-                author.person.id === highlight ? "font-semibold" : "font-medium",
+                author.person.id === highlight
+                  ? "font-semibold"
+                  : "font-medium",
               )}
             >
               {author.person.name}

@@ -16,7 +16,11 @@ import { cn } from "@/lib/utils";
 type IconComponent = (props: { className?: string }) => React.ReactNode;
 
 /** Display order matches how researchers are usually looked up. */
-const CHANNELS: Array<{ key: keyof Socials | "email"; label: string; Icon: IconComponent }> = [
+const CHANNELS: Array<{
+  key: keyof Socials | "email";
+  label: string;
+  Icon: IconComponent;
+}> = [
   { key: "email", label: "Email", Icon: Mail },
   { key: "scholar", label: "Google Scholar", Icon: SiGooglescholar },
   { key: "github", label: "GitHub", Icon: SiGithub },
@@ -37,7 +41,12 @@ interface SocialLinksProps {
 }
 
 /** Contact and profile links for a person, as labelled icon buttons. */
-export function SocialLinks({ socials, email, className, size = "md" }: SocialLinksProps) {
+export function SocialLinks({
+  socials,
+  email,
+  className,
+  size = "md",
+}: SocialLinksProps) {
   const entries = CHANNELS.flatMap(({ key, label, Icon }) => {
     const value = key === "email" ? email : socials?.[key];
     if (!value) return [];
@@ -58,7 +67,9 @@ export function SocialLinks({ socials, email, className, size = "md" }: SocialLi
         <li key={key}>
           <a
             href={href}
-            {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            {...(external
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
             aria-label={label}
             title={label}
             className={cn(

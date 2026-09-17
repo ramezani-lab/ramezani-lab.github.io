@@ -11,15 +11,15 @@ directed by Dr. Maryam Ramezani. Formal, modern, professional.
 
 ## Constraints
 
-| Constraint | Implication |
-| --- | --- |
+| Constraint                                         | Implication                                                                                                                                                        |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Same stack and folder layout as `byte-new-website` | Next.js 16 App Router, React 19, TS strict, Tailwind v4 + shadcn (base-lyra, LTR), MDX via `next-mdx-remote-client`, gray-matter + Zod, Shiki, KaTeX, Vitest, pnpm |
-| Fully static (`output: "export"`) | No API routes; everything derived at build time |
-| Build-time content graph | Relations, counts, search index, OG images computed in `prebuild` / module init |
-| English only, LTR | `lang="en"`; formal copy |
-| Primary colour lives in `app/globals.css` | One `--primary` per theme; derived tints via `color-mix()` |
-| Default theme is light (cream, from the logo) | Toggle offers light / dark / system |
-| Deploy: GitHub Pages via Actions | Same workflow shape as Byte; domain configurable in `lib/site.ts` |
+| Fully static (`output: "export"`)                  | No API routes; everything derived at build time                                                                                                                    |
+| Build-time content graph                           | Relations, counts, search index, OG images computed in `prebuild` / module init                                                                                    |
+| English only, LTR                                  | `lang="en"`; formal copy                                                                                                                                           |
+| Primary colour lives in `app/globals.css`          | One `--primary` per theme; derived tints via `color-mix()`                                                                                                         |
+| Default theme is light (cream, from the logo)      | Toggle offers light / dark / system                                                                                                                                |
+| Deploy: GitHub Pages via Actions                   | Same workflow shape as Byte; domain configurable in `lib/site.ts`                                                                                                  |
 
 ## Content model (`content/`)
 

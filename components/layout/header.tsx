@@ -6,7 +6,12 @@ import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { NAV_ITEMS, SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -40,7 +45,9 @@ function NavLink({
       aria-current={active ? "page" : undefined}
       className={cn(
         "relative rounded-md px-2.5 py-1.5 text-sm transition-colors",
-        active ? "font-semibold text-foreground" : "text-muted-foreground hover:text-foreground",
+        active
+          ? "font-semibold text-foreground"
+          : "text-muted-foreground hover:text-foreground",
         className,
       )}
     >
@@ -75,7 +82,12 @@ export function Header() {
           <Sheet key={pathname} open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger
               render={
-                <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Menu">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="lg:hidden"
+                  aria-label="Menu"
+                >
                   <Menu className="size-[1.15rem]" />
                 </Button>
               }

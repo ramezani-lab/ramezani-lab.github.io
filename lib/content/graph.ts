@@ -50,7 +50,9 @@ export function buildGraph(raw: RawContent): ContentGraph {
     });
   }
 
-  const directors = [...peopleById.values()].filter((p) => p.role === "director");
+  const directors = [...peopleById.values()].filter(
+    (p) => p.role === "director",
+  );
   if (directors.length !== 1) {
     throw new Error(
       `content/people must contain exactly one person with role "director" (found ${directors.length})`,
@@ -111,7 +113,9 @@ export function buildGraph(raw: RawContent): ContentGraph {
       status: fm.status,
       tags: fm.tags,
       areas: fm.areas.map(
-        (slug) => areasBySlug.get(slug) ?? referenceError(doc, "areas", slug, "research area"),
+        (slug) =>
+          areasBySlug.get(slug) ??
+          referenceError(doc, "areas", slug, "research area"),
       ),
       links: fm.links,
       featured: fm.featured,
@@ -158,7 +162,9 @@ export function buildGraph(raw: RawContent): ContentGraph {
       cover: resolveAsset("news", doc.slug, fm.cover),
       people: fm.people.map((id) => personRef(doc, "people", id)),
       papers: fm.papers.map(
-        (slug) => papersBySlug.get(slug) ?? referenceError(doc, "papers", slug, "paper"),
+        (slug) =>
+          papersBySlug.get(slug) ??
+          referenceError(doc, "papers", slug, "paper"),
       ),
       tags: fm.tags,
       body: doc.body,
@@ -170,7 +176,10 @@ export function buildGraph(raw: RawContent): ContentGraph {
 
   // A news item about a paper also concerns that paper's lab authors.
   for (const item of news) {
-    const involved = new Set([...item.people, ...item.papers.flatMap((p) => p.members)]);
+    const involved = new Set([
+      ...item.people,
+      ...item.papers.flatMap((p) => p.members),
+    ]);
     for (const member of involved) member.news.push(item);
   }
 
@@ -209,7 +218,14 @@ export function buildGraph(raw: RawContent): ContentGraph {
     const slug = slugify(name);
     let tag = tagsBySlug.get(slug);
     if (!tag) {
-      tag = { name, slug, url: `/tags/${slug}`, papers: [], news: [], count: 0 };
+      tag = {
+        name,
+        slug,
+        url: `/tags/${slug}`,
+        papers: [],
+        news: [],
+        count: 0,
+      };
       tagsBySlug.set(slug, tag);
     }
     return tag;

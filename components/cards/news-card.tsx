@@ -25,7 +25,10 @@ export function NewsCard({ item }: { item: NewsItem }) {
 
       <div className="min-w-0">
         <h3 className="text-lg font-semibold leading-snug tracking-tight">
-          <Link href={item.url} className="transition-colors hover:text-primary-ink">
+          <Link
+            href={item.url}
+            className="transition-colors hover:text-primary-ink"
+          >
             {item.title}
           </Link>
         </h3>

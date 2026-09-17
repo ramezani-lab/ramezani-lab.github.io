@@ -11,7 +11,14 @@ const config = [
     },
   },
   {
-    ignores: ["out/**", ".next/**", "content/**", "public/**", "node_modules/**"],
+    ignores: [
+      "out/**",
+      ".next/**",
+      "content/**",
+      "public/**",
+      "node_modules/**",
+      "scripts/screenshots.mjs",
+    ],
   },
 ];
 

@@ -108,7 +108,10 @@ export function collectSearchDocs(graph: ContentGraph): SearchDoc[] {
       kind: "course",
       url: `/teaching#${slug}`,
       title: course.title,
-      description: [course.code, course.level === "graduate" ? "Graduate" : "Undergraduate"]
+      description: [
+        course.code,
+        course.level === "graduate" ? "Graduate" : "Undergraduate",
+      ]
         .filter(Boolean)
         .join(", "),
       related: course.offerings.map((offering) => offering.term),

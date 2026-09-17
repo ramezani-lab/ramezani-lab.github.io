@@ -48,7 +48,9 @@ function EducationList({ items }: { items: Education[] }) {
     <ul className="space-y-4">
       {items.map((item, index) => (
         <li key={index} className="grid gap-x-6 sm:grid-cols-[5rem_1fr]">
-          <span className="font-mono text-xs text-muted-foreground">{item.year}</span>
+          <span className="font-mono text-xs text-muted-foreground">
+            {item.year}
+          </span>
           <span>
             <span className="font-medium">
               {item.degree} in {item.field}
@@ -71,7 +73,9 @@ function ExperienceList({ items }: { items: Experience[] }) {
         const years = formatYearRange(item.start, item.end);
         return (
           <li key={index} className="grid gap-x-6 sm:grid-cols-[5rem_1fr]">
-            <span className="font-mono text-xs text-muted-foreground">{years}</span>
+            <span className="font-mono text-xs text-muted-foreground">
+              {years}
+            </span>
             <span>
               <span className="font-medium">{item.role}</span>
               <span className="block text-sm text-muted-foreground">
@@ -111,13 +115,17 @@ export default async function PersonPage({
           jobTitle: person.title ?? ROLE_LABELS[person.role],
           email: person.email,
           sameAs: Object.values(person.socials).filter(
-            (value): value is string => typeof value === "string" && value.startsWith("http"),
+            (value): value is string =>
+              typeof value === "string" && value.startsWith("http"),
           ),
           knowsAbout: person.interests,
         })}
       />
 
-      <Link href="/people" className="link-underline text-sm text-muted-foreground">
+      <Link
+        href="/people"
+        className="link-underline text-sm text-muted-foreground"
+      >
         People
       </Link>
 
@@ -155,7 +163,9 @@ export default async function PersonPage({
         </div>
 
         <div className="min-w-0">
-          <h1 className="text-4xl font-semibold tracking-tight">{person.name}</h1>
+          <h1 className="text-4xl font-semibold tracking-tight">
+            {person.name}
+          </h1>
           <p className="mt-2 text-lg text-muted-foreground">
             {person.title ?? ROLE_LABELS[person.role]}
           </p>
@@ -191,7 +201,9 @@ export default async function PersonPage({
 
           {person.areas.length > 0 ? (
             <section className="mt-14">
-              <h2 className="text-xl font-semibold tracking-tight">Research areas</h2>
+              <h2 className="text-xl font-semibold tracking-tight">
+                Research areas
+              </h2>
               <ul className="mt-4 flex flex-wrap gap-2">
                 {person.areas.map((area) => (
                   <li key={area.slug}>
@@ -209,7 +221,9 @@ export default async function PersonPage({
 
           {person.education.length > 0 ? (
             <section className="mt-14">
-              <h2 className="text-xl font-semibold tracking-tight">Education</h2>
+              <h2 className="text-xl font-semibold tracking-tight">
+                Education
+              </h2>
               <div className="mt-5">
                 <EducationList items={person.education} />
               </div>
@@ -218,7 +232,9 @@ export default async function PersonPage({
 
           {person.experience.length > 0 ? (
             <section className="mt-14">
-              <h2 className="text-xl font-semibold tracking-tight">Experience</h2>
+              <h2 className="text-xl font-semibold tracking-tight">
+                Experience
+              </h2>
               <div className="mt-5">
                 <ExperienceList items={person.experience} />
               </div>
@@ -242,10 +258,15 @@ export default async function PersonPage({
 
           {person.news.length > 0 ? (
             <section className="mt-14 pb-4">
-              <h2 className="text-xl font-semibold tracking-tight">In the news</h2>
+              <h2 className="text-xl font-semibold tracking-tight">
+                In the news
+              </h2>
               <ul className="mt-4 space-y-3">
                 {person.news.map((item) => (
-                  <li key={item.slug} className="flex flex-wrap gap-x-4 text-sm">
+                  <li
+                    key={item.slug}
+                    className="flex flex-wrap gap-x-4 text-sm"
+                  >
                     <time
                       dateTime={item.date}
                       className="shrink-0 font-mono text-xs text-muted-foreground"

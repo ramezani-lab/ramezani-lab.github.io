@@ -31,7 +31,11 @@ export function BibtexBlock({ bibtex }: { bibtex: string }) {
         className="absolute end-3 top-3"
         aria-label="Copy BibTeX entry"
       >
-        {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+        {copied ? (
+          <Check className="size-3.5" />
+        ) : (
+          <Copy className="size-3.5" />
+        )}
         {copied ? "Copied" : "Copy"}
       </Button>
     </div>

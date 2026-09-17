@@ -14,3 +14,6 @@ public/og
 # MDX prose and frontmatter stay as authored
 *.mdx
 **/*.mdx
+
+# Local visual-check helper
+scripts/screenshots.mjs

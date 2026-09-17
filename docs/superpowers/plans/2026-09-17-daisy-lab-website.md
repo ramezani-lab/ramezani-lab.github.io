@@ -101,6 +101,7 @@ describe("cn", () => {
 **Files:** Create `lib/content/schema.ts`, `lib/content/assets.ts`, `lib/content/read.ts`; Test `lib/content/schema.test.ts`, `lib/content/assets.test.ts`.
 
 **Interfaces:**
+
 - `ROLES = ["director","postdoc","phd","msc","bsc","alumni"] as const`, `type Role`.
 - `personFrontmatterSchema`, `paperFrontmatterSchema`, `newsFrontmatterSchema`, `researchFrontmatterSchema`, `positionFrontmatterSchema`, `courseSchema` and inferred types `PersonFrontmatter, PaperFrontmatter, NewsFrontmatter, ResearchFrontmatter, PositionFrontmatter, Course`.
 - `resolveAsset(collection: string, slug: string, value?: string): string | undefined`.
@@ -117,12 +118,18 @@ import { resolveAsset } from "./assets";
 
 describe("resolveAsset", () => {
   it("maps a relative path into public/content", () => {
-    expect(resolveAsset("papers", "dani", "./cover.png")).toBe("/content/papers/dani/cover.png");
-    expect(resolveAsset("papers", "dani", "img/a.png")).toBe("/content/papers/dani/img/a.png");
+    expect(resolveAsset("papers", "dani", "./cover.png")).toBe(
+      "/content/papers/dani/cover.png",
+    );
+    expect(resolveAsset("papers", "dani", "img/a.png")).toBe(
+      "/content/papers/dani/img/a.png",
+    );
   });
   it("keeps absolute and remote paths", () => {
     expect(resolveAsset("people", "x", "/img/a.png")).toBe("/img/a.png");
-    expect(resolveAsset("people", "x", "https://e.com/a.png")).toBe("https://e.com/a.png");
+    expect(resolveAsset("people", "x", "https://e.com/a.png")).toBe(
+      "https://e.com/a.png",
+    );
   });
   it("passes undefined through", () => {
     expect(resolveAsset("people", "x", undefined)).toBeUndefined();
@@ -143,12 +150,20 @@ describe("personFrontmatterSchema", () => {
     expect(p.order).toBe(100);
   });
   it("rejects unknown roles", () => {
-    expect(() => personFrontmatterSchema.parse({ name: "A", role: "dean" })).toThrow();
+    expect(() =>
+      personFrontmatterSchema.parse({ name: "A", role: "dean" }),
+    ).toThrow();
   });
 });
 
 describe("paperFrontmatterSchema", () => {
-  const base = { title: "T", abstract: "A", authors: ["x"], year: 2024, venue: { name: "V", type: "journal" } };
+  const base = {
+    title: "T",
+    abstract: "A",
+    authors: ["x"],
+    year: 2024,
+    venue: { name: "V", type: "journal" },
+  };
   it("defaults status, tags, links", () => {
     const p = paperFrontmatterSchema.parse(base);
     expect(p.status).toBe("published");
@@ -157,11 +172,23 @@ describe("paperFrontmatterSchema", () => {
     expect(p.featured).toBe(false);
   });
   it("requires at least one author", () => {
-    expect(() => paperFrontmatterSchema.parse({ ...base, authors: [] })).toThrow();
+    expect(() =>
+      paperFrontmatterSchema.parse({ ...base, authors: [] }),
+    ).toThrow();
   });
   it("validates link urls and types", () => {
-    expect(() => paperFrontmatterSchema.parse({ ...base, links: [{ type: "arxiv", url: "nope" }] })).toThrow();
-    expect(() => paperFrontmatterSchema.parse({ ...base, links: [{ type: "tweet", url: "https://x.com" }] })).toThrow();
+    expect(() =>
+      paperFrontmatterSchema.parse({
+        ...base,
+        links: [{ type: "arxiv", url: "nope" }],
+      }),
+    ).toThrow();
+    expect(() =>
+      paperFrontmatterSchema.parse({
+        ...base,
+        links: [{ type: "tweet", url: "https://x.com" }],
+      }),
+    ).toThrow();
   });
 });
 ```
@@ -175,6 +202,7 @@ describe("paperFrontmatterSchema", () => {
 **Files:** Create `lib/content/bibtex.ts`, `lib/content/people.ts`; Test `lib/content/bibtex.test.ts`, `lib/content/people.test.ts`.
 
 **Interfaces:**
+
 - `buildBibtex(input: { title: string; authors: string[]; year: number; venue: { name: string; type: VenueType }; links: PaperLink[] }): string`
 - `bibtexKey(authors: string[], year: number, title: string): string`
 - `ROLE_GROUPS: { role: Role; label: string }[]` in display order; `groupPeople<T extends { role: Role; order: number; name: string; startYear?: number; endYear?: number }>(people: T[]): { role: Role; label: string; people: T[] }[]` (empty groups omitted; alumni by `endYear` desc).
@@ -188,14 +216,22 @@ import { bibtexKey, buildBibtex } from "./bibtex";
 
 describe("bibtexKey", () => {
   it("uses first author surname, year, first significant title word", () => {
-    expect(bibtexKey(["Maryam Ramezani", "Hamid R. Rabiee"], 2024, "The DANI: fast inference")).toBe("ramezani2024dani");
+    expect(
+      bibtexKey(
+        ["Maryam Ramezani", "Hamid R. Rabiee"],
+        2024,
+        "The DANI: fast inference",
+      ),
+    ).toBe("ramezani2024dani");
   });
 });
 
 describe("buildBibtex", () => {
   it("emits @article for journals with arXiv/doi url", () => {
     const bib = buildBibtex({
-      title: "DANI", authors: ["Maryam Ramezani", "Hamid R. Rabiee"], year: 2024,
+      title: "DANI",
+      authors: ["Maryam Ramezani", "Hamid R. Rabiee"],
+      year: 2024,
       venue: { name: "Scientific Reports", type: "journal" },
       links: [{ type: "doi", url: "https://doi.org/10.1/x" }],
     });
@@ -205,10 +241,22 @@ describe("buildBibtex", () => {
     expect(bib).toContain("doi = {10.1/x}");
   });
   it("emits @inproceedings for conferences and @misc for preprints", () => {
-    const conf = buildBibtex({ title: "X", authors: ["A B"], year: 2025, venue: { name: "KDD", type: "conference" }, links: [] });
+    const conf = buildBibtex({
+      title: "X",
+      authors: ["A B"],
+      year: 2025,
+      venue: { name: "KDD", type: "conference" },
+      links: [],
+    });
     expect(conf).toMatch(/^@inproceedings\{/);
     expect(conf).toContain("booktitle = {KDD}");
-    const pre = buildBibtex({ title: "X", authors: ["A B"], year: 2025, venue: { name: "arXiv", type: "preprint" }, links: [{ type: "arxiv", url: "https://arxiv.org/abs/2501.00001" }] });
+    const pre = buildBibtex({
+      title: "X",
+      authors: ["A B"],
+      year: 2025,
+      venue: { name: "arXiv", type: "preprint" },
+      links: [{ type: "arxiv", url: "https://arxiv.org/abs/2501.00001" }],
+    });
     expect(pre).toMatch(/^@misc\{/);
     expect(pre).toContain("eprint = {2501.00001}");
   });
@@ -220,19 +268,35 @@ describe("buildBibtex", () => {
 import { describe, expect, it } from "vitest";
 import { groupPeople } from "./people";
 
-const p = (name: string, role: any, extra = {}) => ({ name, role, order: 100, ...extra });
+const p = (name: string, role: any, extra = {}) => ({
+  name,
+  role,
+  order: 100,
+  ...extra,
+});
 
 describe("groupPeople", () => {
   it("orders groups director → alumni and omits empty ones", () => {
-    const groups = groupPeople([p("S", "msc"), p("D", "director"), p("Z", "alumni", { endYear: 2024 })]);
+    const groups = groupPeople([
+      p("S", "msc"),
+      p("D", "director"),
+      p("Z", "alumni", { endYear: 2024 }),
+    ]);
     expect(groups.map((g) => g.role)).toEqual(["director", "msc", "alumni"]);
   });
   it("sorts current members by order then start year then name", () => {
-    const [g] = groupPeople([p("B", "phd", { startYear: 2023 }), p("A", "phd", { startYear: 2023 }), p("C", "phd", { order: 1 })]);
+    const [g] = groupPeople([
+      p("B", "phd", { startYear: 2023 }),
+      p("A", "phd", { startYear: 2023 }),
+      p("C", "phd", { order: 1 }),
+    ]);
     expect(g.people.map((x) => x.name)).toEqual(["C", "A", "B"]);
   });
   it("sorts alumni by most recent end year", () => {
-    const [g] = groupPeople([p("Old", "alumni", { endYear: 2020 }), p("New", "alumni", { endYear: 2025 })]);
+    const [g] = groupPeople([
+      p("Old", "alumni", { endYear: 2020 }),
+      p("New", "alumni", { endYear: 2025 }),
+    ]);
     expect(g.people.map((x) => x.name)).toEqual(["New", "Old"]);
   });
 });
@@ -245,6 +309,7 @@ describe("groupPeople", () => {
 **Files:** Create `lib/content/graph.ts`, `lib/content/index.ts`, `lib/slug.ts`; Test `lib/content/graph.test.ts`, `lib/slug.test.ts`.
 
 **Interfaces:**
+
 - `slugify(value: string): string` (lowercase ASCII, `-` separators).
 - Resolved types in `schema.ts`: `Person`, `PaperAuthor = { kind: "member"; person: Person } | { kind: "external"; name: string }`, `Paper`, `NewsItem`, `ResearchArea`, `Position`, `Tag`, `ContentGraph` with arrays + `peopleById, papersBySlug, newsBySlug, areasBySlug, tagsBySlug` maps.
 - `buildGraph(raw: RawContent): ContentGraph` (pure) and `getGraph(): ContentGraph` (cached, reads fs).
@@ -257,23 +322,90 @@ describe("groupPeople", () => {
 import { describe, expect, it } from "vitest";
 import { buildGraph } from "./graph";
 import type { RawContent } from "./read";
-import { newsFrontmatterSchema, paperFrontmatterSchema, personFrontmatterSchema, positionFrontmatterSchema, researchFrontmatterSchema } from "./schema";
+import {
+  newsFrontmatterSchema,
+  paperFrontmatterSchema,
+  personFrontmatterSchema,
+  positionFrontmatterSchema,
+  researchFrontmatterSchema,
+} from "./schema";
 
-const doc = <T>(slug: string, frontmatter: T, body = "") => ({ slug, file: `${slug}/index.mdx`, frontmatter, body });
+const doc = <T>(slug: string, frontmatter: T, body = "") => ({
+  slug,
+  file: `${slug}/index.mdx`,
+  frontmatter,
+  body,
+});
 
 function fixture(over: Partial<RawContent> = {}): RawContent {
   return {
     people: [
-      doc("ramezani", personFrontmatterSchema.parse({ name: "Maryam Ramezani", role: "director" })),
-      doc("ali", personFrontmatterSchema.parse({ name: "Ali Student", role: "phd" })),
+      doc(
+        "ramezani",
+        personFrontmatterSchema.parse({
+          name: "Maryam Ramezani",
+          role: "director",
+        }),
+      ),
+      doc(
+        "ali",
+        personFrontmatterSchema.parse({ name: "Ali Student", role: "phd" }),
+      ),
     ],
-    research: [doc("text-to-sql", researchFrontmatterSchema.parse({ title: "Text-to-SQL", summary: "s", people: ["ali"] }))],
+    research: [
+      doc(
+        "text-to-sql",
+        researchFrontmatterSchema.parse({
+          title: "Text-to-SQL",
+          summary: "s",
+          people: ["ali"],
+        }),
+      ),
+    ],
     papers: [
-      doc("p1", paperFrontmatterSchema.parse({ title: "P1", abstract: "a", authors: ["ali", "External Person", "ramezani"], year: 2025, venue: { name: "VLDB", type: "conference" }, tags: ["Text-to-SQL", "LLMs"], areas: ["text-to-sql"] })),
-      doc("p2", paperFrontmatterSchema.parse({ title: "P2", abstract: "a", authors: ["ramezani"], year: 2023, venue: { name: "J", type: "journal" }, tags: ["LLMs"] })),
+      doc(
+        "p1",
+        paperFrontmatterSchema.parse({
+          title: "P1",
+          abstract: "a",
+          authors: ["ali", "External Person", "ramezani"],
+          year: 2025,
+          venue: { name: "VLDB", type: "conference" },
+          tags: ["Text-to-SQL", "LLMs"],
+          areas: ["text-to-sql"],
+        }),
+      ),
+      doc(
+        "p2",
+        paperFrontmatterSchema.parse({
+          title: "P2",
+          abstract: "a",
+          authors: ["ramezani"],
+          year: 2023,
+          venue: { name: "J", type: "journal" },
+          tags: ["LLMs"],
+        }),
+      ),
     ],
-    news: [doc("n1", newsFrontmatterSchema.parse({ title: "N1", date: "2025-05-01", category: "paper", people: ["ali"], papers: ["p1"], tags: ["LLMs"] }))],
-    positions: [doc("phd", positionFrontmatterSchema.parse({ title: "PhD", level: "phd" }))],
+    news: [
+      doc(
+        "n1",
+        newsFrontmatterSchema.parse({
+          title: "N1",
+          date: "2025-05-01",
+          category: "paper",
+          people: ["ali"],
+          papers: ["p1"],
+          tags: ["LLMs"],
+        }),
+      ),
+    ],
+    positions: [
+      doc(
+        "phd",
+        positionFrontmatterSchema.parse({ title: "PhD", level: "phd" }),
+      ),
+    ],
     courses: [],
     ...over,
   };
@@ -283,31 +415,76 @@ describe("buildGraph", () => {
   it("resolves member and external authors in order", () => {
     const g = buildGraph(fixture());
     const p1 = g.papersBySlug.get("p1")!;
-    expect(p1.authors.map((a) => (a.kind === "member" ? a.person.id : a.name))).toEqual(["ali", "External Person", "ramezani"]);
+    expect(
+      p1.authors.map((a) => (a.kind === "member" ? a.person.id : a.name)),
+    ).toEqual(["ali", "External Person", "ramezani"]);
   });
   it("fills inverse relations", () => {
     const g = buildGraph(fixture());
-    expect(g.peopleById.get("ramezani")!.papers.map((p) => p.slug)).toEqual(["p1", "p2"]);
+    expect(g.peopleById.get("ramezani")!.papers.map((p) => p.slug)).toEqual([
+      "p1",
+      "p2",
+    ]);
     expect(g.peopleById.get("ali")!.news.map((n) => n.slug)).toEqual(["n1"]);
-    expect(g.areasBySlug.get("text-to-sql")!.papers.map((p) => p.slug)).toEqual(["p1"]);
+    expect(g.areasBySlug.get("text-to-sql")!.papers.map((p) => p.slug)).toEqual(
+      ["p1"],
+    );
     expect(g.tagsBySlug.get("llms")!.count).toBe(3);
   });
   it("sorts papers newest first", () => {
-    expect(buildGraph(fixture()).papers.map((p) => p.slug)).toEqual(["p1", "p2"]);
+    expect(buildGraph(fixture()).papers.map((p) => p.slug)).toEqual([
+      "p1",
+      "p2",
+    ]);
   });
   it("fails on dangling references with the file named", () => {
-    const bad = fixture({ news: [doc("n2", newsFrontmatterSchema.parse({ title: "N", date: "2025-01-01", category: "event", papers: ["missing"] }))] });
+    const bad = fixture({
+      news: [
+        doc(
+          "n2",
+          newsFrontmatterSchema.parse({
+            title: "N",
+            date: "2025-01-01",
+            category: "event",
+            papers: ["missing"],
+          }),
+        ),
+      ],
+    });
     expect(() => buildGraph(bad)).toThrow(/n2\/index\.mdx.*missing/s);
-    const badArea = fixture({ papers: [doc("p3", paperFrontmatterSchema.parse({ title: "P", abstract: "a", authors: ["ramezani"], year: 2024, venue: { name: "V", type: "journal" }, areas: ["nope"] }))] });
+    const badArea = fixture({
+      papers: [
+        doc(
+          "p3",
+          paperFrontmatterSchema.parse({
+            title: "P",
+            abstract: "a",
+            authors: ["ramezani"],
+            year: 2024,
+            venue: { name: "V", type: "journal" },
+            areas: ["nope"],
+          }),
+        ),
+      ],
+    });
     expect(() => buildGraph(badArea)).toThrow(/p3\/index\.mdx.*nope/s);
   });
   it("fails when there is not exactly one director", () => {
-    const none = fixture({ people: [doc("ali", personFrontmatterSchema.parse({ name: "A", role: "phd" }))], papers: [], news: [], research: [] });
+    const none = fixture({
+      people: [
+        doc("ali", personFrontmatterSchema.parse({ name: "A", role: "phd" })),
+      ],
+      papers: [],
+      news: [],
+      research: [],
+    });
     expect(() => buildGraph(none)).toThrow(/director/);
   });
   it("generates bibtex from resolved author names", () => {
     const p1 = buildGraph(fixture()).papersBySlug.get("p1")!;
-    expect(p1.bibtex).toContain("author = {Ali Student and External Person and Maryam Ramezani}");
+    expect(p1.bibtex).toContain(
+      "author = {Ali Student and External Person and Maryam Ramezani}",
+    );
   });
 });
 ```
@@ -348,6 +525,7 @@ describe("slugify", () => {
 **Files:** Create `lib/search.ts`, `lib/search-docs.ts`, `scripts/build-search-index.ts`, `components/layout/search-dialog.tsx`; Test `lib/search.test.ts`, `lib/search-docs.test.ts`.
 
 **Interfaces:**
+
 - `type SearchKind = "paper" | "person" | "news" | "research" | "course" | "position" | "tag"`
 - `interface SearchDoc { id: string; kind: SearchKind; url: string; title: string; description: string; related: string[]; tags: string[]; text: string }`
 - `interface SearchHit { id: string; kind: SearchKind; url: string; title: string; description: string; related: string[]; score: number }`
@@ -359,12 +537,45 @@ describe("slugify", () => {
 ```ts
 // lib/search.test.ts
 import { describe, expect, it } from "vitest";
-import { createSearchIndex, loadSearchIndex, querySearchIndex, serializeSearchIndex, type SearchDoc } from "./search";
+import {
+  createSearchIndex,
+  loadSearchIndex,
+  querySearchIndex,
+  serializeSearchIndex,
+  type SearchDoc,
+} from "./search";
 
 const docs: SearchDoc[] = [
-  { id: "paper:dani", kind: "paper", url: "/papers/dani/", title: "DANI: Fast Diffusion Aware Network Inference", description: "Network inference from cascades", related: ["Maryam Ramezani"], tags: ["Graph Mining"], text: "" },
-  { id: "person:ramezani", kind: "person", url: "/people/ramezani/", title: "Maryam Ramezani", description: "Director", related: [], tags: ["Text-to-SQL"], text: "" },
-  { id: "research:sql", kind: "research", url: "/research/text-to-sql/", title: "Text-to-SQL", description: "Natural language interfaces to databases", related: [], tags: [], text: "" },
+  {
+    id: "paper:dani",
+    kind: "paper",
+    url: "/papers/dani/",
+    title: "DANI: Fast Diffusion Aware Network Inference",
+    description: "Network inference from cascades",
+    related: ["Maryam Ramezani"],
+    tags: ["Graph Mining"],
+    text: "",
+  },
+  {
+    id: "person:ramezani",
+    kind: "person",
+    url: "/people/ramezani/",
+    title: "Maryam Ramezani",
+    description: "Director",
+    related: [],
+    tags: ["Text-to-SQL"],
+    text: "",
+  },
+  {
+    id: "research:sql",
+    kind: "research",
+    url: "/research/text-to-sql/",
+    title: "Text-to-SQL",
+    description: "Natural language interfaces to databases",
+    related: [],
+    tags: [],
+    text: "",
+  },
 ];
 
 describe("search", () => {
@@ -373,17 +584,27 @@ describe("search", () => {
     expect(hits[0].id).toBe("paper:dani");
   });
   it("tolerates a typo", () => {
-    expect(querySearchIndex(createSearchIndex(docs), "ramezny").map((h) => h.id)).toContain("person:ramezani");
+    expect(
+      querySearchIndex(createSearchIndex(docs), "ramezny").map((h) => h.id),
+    ).toContain("person:ramezani");
   });
   it("finds a paper through its related author", () => {
-    expect(querySearchIndex(createSearchIndex(docs), "ramezani").map((h) => h.id)).toContain("paper:dani");
+    expect(
+      querySearchIndex(createSearchIndex(docs), "ramezani").map((h) => h.id),
+    ).toContain("paper:dani");
   });
   it("ranks title matches above related matches", () => {
-    expect(querySearchIndex(createSearchIndex(docs), "ramezani")[0].id).toBe("person:ramezani");
+    expect(querySearchIndex(createSearchIndex(docs), "ramezani")[0].id).toBe(
+      "person:ramezani",
+    );
   });
   it("round-trips through JSON", () => {
-    const loaded = loadSearchIndex(serializeSearchIndex(createSearchIndex(docs)));
-    expect(querySearchIndex(loaded, "sql")[0].url).toBe("/research/text-to-sql/");
+    const loaded = loadSearchIndex(
+      serializeSearchIndex(createSearchIndex(docs)),
+    );
+    expect(querySearchIndex(loaded, "sql")[0].url).toBe(
+      "/research/text-to-sql/",
+    );
   });
   it("returns nothing for blank queries", () => {
     expect(querySearchIndex(createSearchIndex(docs), "   ")).toEqual([]);

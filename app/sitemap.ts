@@ -18,7 +18,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const pages: MetadataRoute.Sitemap = [
     { url: absoluteUrl("/"), priority: 1, changeFrequency: "weekly" },
-    { url: absoluteUrl("/research"), priority: 0.9, changeFrequency: "monthly" },
+    {
+      url: absoluteUrl("/research"),
+      priority: 0.9,
+      changeFrequency: "monthly",
+    },
     { url: absoluteUrl("/papers"), priority: 0.9, changeFrequency: "monthly" },
     { url: absoluteUrl("/people"), priority: 0.8, changeFrequency: "monthly" },
     { url: absoluteUrl("/news"), priority: 0.7, changeFrequency: "weekly" },

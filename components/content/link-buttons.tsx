@@ -14,7 +14,10 @@ import { cn } from "@/lib/utils";
 
 type IconComponent = (props: { className?: string }) => React.ReactNode;
 
-const META: Record<LinkType, { label: string; Icon: IconComponent | LucideIcon }> = {
+const META: Record<
+  LinkType,
+  { label: string; Icon: IconComponent | LucideIcon }
+> = {
   paper: { label: "Paper", Icon: FileText },
   pdf: { label: "PDF", Icon: FileText },
   arxiv: { label: "arXiv", Icon: SiArxiv },
@@ -52,7 +55,9 @@ export function LinkButtons({
               rel="noopener noreferrer"
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-md border bg-card font-medium transition-colors hover:border-primary hover:bg-primary-soft",
-                size === "sm" ? "px-2.5 py-1 text-xs" : "px-3 py-1.5 text-[0.8125rem]",
+                size === "sm"
+                  ? "px-2.5 py-1 text-xs"
+                  : "px-3 py-1.5 text-[0.8125rem]",
               )}
             >
               <Icon className={size === "sm" ? "size-3" : "size-3.5"} />

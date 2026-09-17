@@ -1,8 +1,4 @@
-import {
-  Children,
-  isValidElement,
-  type ComponentPropsWithoutRef,
-} from "react";
+import { Children, isValidElement, type ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 
 import { Callout } from "@/components/content/callout";
@@ -32,7 +28,9 @@ export function mdxComponents(baseUrl?: string) {
     );
   }
 
-  function BoundFigure(props: Omit<ComponentPropsWithoutRef<typeof Figure>, "baseUrl">) {
+  function BoundFigure(
+    props: Omit<ComponentPropsWithoutRef<typeof Figure>, "baseUrl">,
+  ) {
     return <Figure {...props} baseUrl={baseUrl} />;
   }
 
@@ -41,9 +39,15 @@ export function mdxComponents(baseUrl?: string) {
     const block = Children.toArray(children).some(
       (child) =>
         isValidElement(child) &&
-        (child.type === MdxImg || child.type === BoundFigure || child.type === Callout),
+        (child.type === MdxImg ||
+          child.type === BoundFigure ||
+          child.type === Callout),
     );
-    return block ? <div {...props}>{children}</div> : <p {...props}>{children}</p>;
+    return block ? (
+      <div {...props}>{children}</div>
+    ) : (
+      <p {...props}>{children}</p>
+    );
   }
 
   function MdxTable(props: ComponentPropsWithoutRef<"table">) {

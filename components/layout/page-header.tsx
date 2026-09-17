@@ -16,7 +16,9 @@ export function PageHeader({
 }) {
   return (
     <header className={cn("border-b pb-10 pt-14", className)}>
-      <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
+      <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+        {title}
+      </h1>
       {lead ? (
         <p className="mt-5 max-w-2xl font-serif text-lg leading-relaxed text-muted-foreground">
           {lead}

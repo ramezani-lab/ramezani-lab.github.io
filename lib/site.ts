@@ -28,10 +28,9 @@ export const SITE = {
     "DAISY Lab studies data-centric AI systems at Sharif University of Technology: machine learning for systems, systems for machine learning, database optimization, Text-to-SQL, AI agents, and complex networks.",
   mission:
     "We build AI systems that treat data as a first-class citizen — learning to optimize databases and infrastructure, making data accessible through natural language, and understanding the networks that data lives in.",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://daisy-lab.github.io").replace(
-    /\/+$/,
-    "",
-  ),
+  url: (
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://daisy-lab.github.io"
+  ).replace(/\/+$/, ""),
   locale: "en_US",
   email: "maryam.ramezani@sharif.edu",
   phone: "+98 21 6616 6654",
@@ -40,7 +39,8 @@ export const SITE = {
     "Sharif University of Technology",
     "Azadi Avenue, Tehran, Iran",
   ],
-  mapUrl: "https://www.openstreetmap.org/search?query=Sharif%20University%20of%20Technology%20Computer%20Engineering",
+  mapUrl:
+    "https://www.openstreetmap.org/search?query=Sharif%20University%20of%20Technology%20Computer%20Engineering",
   department: {
     name: "Department of Computer Engineering",
     url: "https://ce.sharif.edu",

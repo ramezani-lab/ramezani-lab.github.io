@@ -24,7 +24,9 @@ export default function HomePage() {
   const featured = getFeaturedPapers(4);
   const news = getAllNews().slice(0, 3);
   const director = getDirector();
-  const members = getCurrentMembers().filter((person) => person.id !== director.id);
+  const members = getCurrentMembers().filter(
+    (person) => person.id !== director.id,
+  );
   const positions = getOpenPositions();
   const stats = getStats();
 
@@ -73,7 +75,9 @@ export default function HomePage() {
                 {director.name}
               </Link>
             </h3>
-            <p className="mt-0.5 text-sm text-muted-foreground">{director.title}</p>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              {director.title}
+            </p>
             <SocialLinks
               socials={director.socials}
               email={director.email}
@@ -96,7 +100,10 @@ export default function HomePage() {
 
       {news.length > 0 ? (
         <section className="mx-auto max-w-6xl px-4 py-14">
-          <SectionHeading title="Latest news" action={{ href: "/news", label: "All news" }} />
+          <SectionHeading
+            title="Latest news"
+            action={{ href: "/news", label: "All news" }}
+          />
           <ul className="divide-y">
             {news.map((item) => (
               <li key={item.slug}>
@@ -116,8 +123,9 @@ export default function HomePage() {
               </h2>
               <p className="mt-3 font-serif text-lg leading-relaxed text-muted-foreground">
                 {positions.length} open position
-                {positions.length === 1 ? "" : "s"} for students who want to work between
-                machine learning and data systems at {SITE.university.name}.
+                {positions.length === 1 ? "" : "s"} for students who want to
+                work between machine learning and data systems at{" "}
+                {SITE.university.name}.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Button render={<Link href="/join">See open positions</Link>} />

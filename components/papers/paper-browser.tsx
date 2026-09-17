@@ -84,7 +84,10 @@ function PaperRow({ paper }: { paper: PaperSummary }) {
   return (
     <article className="py-6">
       <h3 className="text-lg font-semibold leading-snug tracking-tight">
-        <Link href={paper.url} className="transition-colors hover:text-primary-ink">
+        <Link
+          href={paper.url}
+          className="transition-colors hover:text-primary-ink"
+        >
           {paper.title}
         </Link>
       </h3>
@@ -108,7 +111,9 @@ function PaperRow({ paper }: { paper: PaperSummary }) {
       </p>
 
       <p className="mt-1.5 text-sm text-muted-foreground">
-        <span className="font-serif italic text-foreground/80">{paper.venue.name}</span>
+        <span className="font-serif italic text-foreground/80">
+          {paper.venue.name}
+        </span>
         {status ? (
           <>
             <span className="mx-1.5 text-muted-foreground/50">|</span>
@@ -159,7 +164,8 @@ export function PaperBrowser({
       if (year !== "all" && String(paper.year) !== year) return false;
       if (member !== "all" && !paper.memberIds.includes(member)) return false;
       if (tag !== "all" && !paper.tags.includes(tag)) return false;
-      if (area !== "all" && !paper.areas.some((item) => item.slug === area)) return false;
+      if (area !== "all" && !paper.areas.some((item) => item.slug === area))
+        return false;
       if (venueType !== "all" && paper.venue.type !== venueType) return false;
       if (!needle) return true;
       const haystack = [
@@ -183,7 +189,9 @@ export function PaperBrowser({
     return [...byYear.entries()].sort((a, b) => b[0] - a[0]);
   }, [filtered]);
 
-  const active = query.trim() !== "" || [year, member, tag, area, venueType].some((value) => value !== "all");
+  const active =
+    query.trim() !== "" ||
+    [year, member, tag, area, venueType].some((value) => value !== "all");
 
   const reset = () => {
     setQuery("");
@@ -214,7 +222,10 @@ export function PaperBrowser({
           onChange={setYear}
           options={[
             { value: "all", label: "All years" },
-            ...years.map((value) => ({ value: String(value), label: String(value) })),
+            ...years.map((value) => ({
+              value: String(value),
+              label: String(value),
+            })),
           ]}
         />
         <Select
@@ -262,7 +273,10 @@ export function PaperBrowser({
 
       <div className="divide-y">
         {grouped.map(([groupYear, groupPapers]) => (
-          <section key={groupYear} className="grid gap-x-10 py-6 sm:grid-cols-[6rem_1fr]">
+          <section
+            key={groupYear}
+            className="grid gap-x-10 py-6 sm:grid-cols-[6rem_1fr]"
+          >
             <h2 className="pt-6 font-mono text-2xl font-medium text-muted-foreground/70">
               {groupYear}
             </h2>

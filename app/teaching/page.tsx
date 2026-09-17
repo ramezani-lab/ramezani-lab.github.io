@@ -39,7 +39,9 @@ export default function TeachingPage() {
 
             return (
               <section key={value} className="py-12">
-                <h2 className="text-xl font-semibold tracking-tight">{label}</h2>
+                <h2 className="text-xl font-semibold tracking-tight">
+                  {label}
+                </h2>
                 <ul className="mt-6 divide-y">
                   {group.map((course) => (
                     <li
@@ -51,7 +53,9 @@ export default function TeachingPage() {
                         {course.code}
                       </span>
                       <div>
-                        <h3 className="font-semibold leading-snug">{course.title}</h3>
+                        <h3 className="font-semibold leading-snug">
+                          {course.title}
+                        </h3>
                         {course.description ? (
                           <p className="mt-2 max-w-2xl text-[0.95rem] leading-relaxed text-muted-foreground">
                             {course.description}

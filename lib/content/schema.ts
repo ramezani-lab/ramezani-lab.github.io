@@ -5,8 +5,7 @@ import { z } from "zod";
  * are accepted and normalized back to the string authors wrote.
  */
 const isoDate = z.preprocess(
-  (value) =>
-    value instanceof Date ? value.toISOString().slice(0, 10) : value,
+  (value) => (value instanceof Date ? value.toISOString().slice(0, 10) : value),
   z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "date must be ISO format YYYY-MM-DD"),
 );
 
@@ -132,7 +131,9 @@ export const paperFrontmatterSchema = z.object({
   abstract: z.string().min(1),
   cover: z.string().optional(),
   /** Ordered. A person id links to that member; anything else is a name. */
-  authors: z.array(z.string().min(1)).min(1, "a paper needs at least one author"),
+  authors: z
+    .array(z.string().min(1))
+    .min(1, "a paper needs at least one author"),
   year,
   date: isoDate.optional(),
   venue: venueSchema,
@@ -240,8 +241,7 @@ export interface Person extends Omit<PersonFrontmatter, "image"> {
 }
 
 export type PaperAuthor =
-  | { kind: "member"; person: Person }
-  | { kind: "external"; name: string };
+  { kind: "member"; person: Person } | { kind: "external"; name: string };
 
 export interface Paper {
   slug: string;

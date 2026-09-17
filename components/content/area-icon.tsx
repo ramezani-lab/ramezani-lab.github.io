@@ -20,7 +20,13 @@ const ICONS: Record<string, LucideIcon> = {
   sparkles: Sparkles,
 };
 
-export function AreaIcon({ name, className }: { name: string; className?: string }) {
+export function AreaIcon({
+  name,
+  className,
+}: {
+  name: string;
+  className?: string;
+}) {
   const Icon = ICONS[name] ?? Sparkles;
   return <Icon className={className} aria-hidden />;
 }

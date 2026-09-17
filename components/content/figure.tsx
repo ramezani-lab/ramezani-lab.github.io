@@ -20,7 +20,14 @@ interface FigureProps {
 }
 
 /** Block-level image with an optional caption. Used for markdown images too. */
-export function Figure({ src, alt, caption, title, baseUrl, className }: FigureProps) {
+export function Figure({
+  src,
+  alt,
+  caption,
+  title,
+  baseUrl,
+  className,
+}: FigureProps) {
   if (!src) return null;
   const text = caption ?? title;
 

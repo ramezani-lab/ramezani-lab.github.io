@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { DaisyMark } from "@/components/brand/daisy-mark";
 import { ROLE_LABELS, type Person } from "@/lib/content";
 import { formatYearRange } from "@/lib/format";
 import { assetPath } from "@/lib/site";
@@ -28,7 +29,10 @@ export function PersonPortrait({
         src={assetPath(person.image)}
         alt={person.name}
         loading="lazy"
-        className={cn("aspect-square w-full rounded-lg border object-cover", className)}
+        className={cn(
+          "aspect-square w-full rounded-lg border object-cover",
+          className,
+        )}
       />
     );
   }
@@ -37,11 +41,14 @@ export function PersonPortrait({
     <span
       aria-hidden
       className={cn(
-        "flex aspect-square w-full items-center justify-center rounded-lg border bg-primary-soft text-2xl font-semibold text-foreground/70",
+        "relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-lg border bg-muted",
         className,
       )}
     >
-      {initials(person.name)}
+      <DaisyMark className="absolute inset-0 m-auto size-2/3 text-foreground/[0.06]" />
+      <span className="relative text-2xl font-semibold text-muted-foreground">
+        {initials(person.name)}
+      </span>
     </span>
   );
 }
@@ -63,7 +70,9 @@ export function PersonCard({ person }: { person: Person }) {
         {person.title ?? ROLE_LABELS[person.role]}
       </p>
       {years ? (
-        <p className="mt-0.5 font-mono text-xs text-muted-foreground/80">{years}</p>
+        <p className="mt-0.5 font-mono text-xs text-muted-foreground/80">
+          {years}
+        </p>
       ) : null}
     </Link>
   );

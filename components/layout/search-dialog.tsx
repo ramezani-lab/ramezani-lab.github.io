@@ -184,7 +184,10 @@ export function SearchDialog() {
             />
           </div>
 
-          <div ref={listRef} className="scroll-subtle max-h-[60vh] overflow-y-auto p-2">
+          <div
+            ref={listRef}
+            className="scroll-subtle max-h-[60vh] overflow-y-auto p-2"
+          >
             {!ready ? (
               <p className="p-6 text-center text-sm text-muted-foreground">
                 Loading the index…

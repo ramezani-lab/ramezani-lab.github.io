@@ -53,12 +53,18 @@ export default async function NewsItemPage({
         ])}
       />
 
-      <Link href="/news" className="link-underline text-sm text-muted-foreground">
+      <Link
+        href="/news"
+        className="link-underline text-sm text-muted-foreground"
+      >
         News
       </Link>
 
       <header className="mt-6">
-        <time dateTime={item.date} className="font-mono text-xs text-muted-foreground">
+        <time
+          dateTime={item.date}
+          className="font-mono text-xs text-muted-foreground"
+        >
           {formatDate(item.date)}
         </time>
         <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
@@ -92,7 +98,10 @@ export default async function NewsItemPage({
           {item.people.map((person, index) => (
             <span key={person.id}>
               {index > 0 ? ", " : ""}
-              <Link href={person.url} className="link-underline text-foreground">
+              <Link
+                href={person.url}
+                className="link-underline text-foreground"
+              >
                 {person.name}
               </Link>
             </span>
@@ -102,7 +111,9 @@ export default async function NewsItemPage({
 
       {item.papers.length > 0 ? (
         <section className="mt-12 border-t pt-4">
-          <h2 className="pt-6 text-lg font-semibold tracking-tight">Related publication</h2>
+          <h2 className="pt-6 text-lg font-semibold tracking-tight">
+            Related publication
+          </h2>
           <ul className="divide-y">
             {item.papers.map((paper) => (
               <li key={paper.slug}>

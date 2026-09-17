@@ -121,7 +121,9 @@ export interface SiteStats {
 /** Site-wide counts, computed once at build time. */
 export function getStats(): SiteStats {
   const graph = getGraph();
-  const alumni = graph.people.filter((person) => person.role === "alumni").length;
+  const alumni = graph.people.filter(
+    (person) => person.role === "alumni",
+  ).length;
   return {
     papers: graph.papers.length,
     members: graph.people.length - alumni,

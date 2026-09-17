@@ -18,8 +18,9 @@ describe("absoluteUrl", () => {
 describe("JsonLd", () => {
   it("escapes angle brackets so content cannot close the script", () => {
     const element = JsonLd({ data: { name: "</script><b>" } });
-    const html = (element.props as { dangerouslySetInnerHTML: { __html: string } })
-      .dangerouslySetInnerHTML.__html;
+    const html = (
+      element.props as { dangerouslySetInnerHTML: { __html: string } }
+    ).dangerouslySetInnerHTML.__html;
     expect(html).not.toContain("</script>");
   });
 });
