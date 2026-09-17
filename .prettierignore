@@ -1,0 +1,16 @@
+# Dependencies & build
+node_modules
+.next
+out
+dist
+coverage
+pnpm-lock.yaml
+
+# Generated / synced assets
+public/search-index.json
+public/content
+public/og
+
+# MDX prose and frontmatter stay as authored
+*.mdx
+**/*.mdx
