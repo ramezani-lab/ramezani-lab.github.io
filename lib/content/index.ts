@@ -11,6 +11,7 @@ import type {
 } from "./schema";
 
 export { buildGraph, getGraph } from "./graph";
+export { courseSlug } from "./courses";
 export { DEGREE_LABELS, groupPeople, ROLE_GROUPS, ROLE_LABELS } from "./people";
 export * from "./schema";
 

@@ -1,5 +1,6 @@
 import { slugify } from "../slug";
 import { resolveAsset } from "./assets";
+import { courseSlug } from "./courses";
 import { buildBibtex } from "./bibtex";
 import { readContent, type RawContent, type RawDoc } from "./read";
 import type {
@@ -187,6 +188,20 @@ export function buildGraph(raw: RawContent): ContentGraph {
         a.order - b.order ||
         a.title.localeCompare(b.title),
     );
+
+  // ---- Courses ------------------------------------------------------------
+  // Courses are addressed by anchor on the teaching page, so their slugs have
+  // to be unique; a duplicate would also collide in the search index.
+  const courseSlugs = new Set<string>();
+  for (const course of raw.courses) {
+    const slug = courseSlug(course);
+    if (courseSlugs.has(slug)) {
+      throw new Error(
+        `duplicate course in content/data/courses.ts: "${course.code ?? ""} ${course.title}" resolves to the id "${slug}" more than once — give each course a distinct code or title`,
+      );
+    }
+    courseSlugs.add(slug);
+  }
 
   // ---- Tags ---------------------------------------------------------------
   const tagsBySlug = new Map<string, Tag>();

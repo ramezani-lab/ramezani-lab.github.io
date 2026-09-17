@@ -1,0 +1,49 @@
+---
+title: "Epistemic Uncertainty-aware Recommendation Systems via Bayesian Deep Ensemble Learning"
+abstract: >-
+  Most well-known recommendation models employ representation learning to map
+  users and items into a unified embedding space for matching assessment.
+  These approaches have primary limitations, especially with explicit feedback
+  and sparse data: proneness to overfitting and failure to incorporate
+  epistemic uncertainty in predictions. We propose a Bayesian Deep Ensemble
+  Collaborative Filtering method named BDECF. To improve model generalisation
+  and quality, we use Bayesian neural networks, which incorporate uncertainty
+  within their weight parameters, and introduce an interpretable non-linear
+  matching approach for user and item embeddings leveraging the attention
+  mechanism. We further endorse an ensemble-based supermodel to generate more
+  robust and reliable predictions. Extensive experiments and ablation studies
+  across public real-world datasets with differing sparsity confirm the
+  method's effectiveness.
+authors:
+  - "Radin Cheraghi"
+  - "Amir Mohammad Mahfoozi"
+  - "Sepehr Zolfaghari"
+  - "Mohammadshayan Shabani"
+  - "maryam-ramezani"
+  - "Hamid R. Rabiee"
+year: 2025
+date: "2025-04-14"
+venue:
+  name: "arXiv"
+  type: preprint
+status: preprint
+tags:
+  - "Recommender Systems"
+  - "Bayesian Deep Learning"
+  - "Uncertainty"
+  - "Collaborative Filtering"
+areas:
+  - trustworthy-ai
+links:
+  - type: arxiv
+    url: https://arxiv.org/abs/2504.10753
+---
+
+Recommenders trained on sparse explicit feedback are confidently wrong in
+exactly the places where they have seen the least data. BDECF addresses that
+directly: weights are Bayesian, so the model carries epistemic uncertainty, and
+an ensemble of such models produces predictions that can be trusted or
+discounted according to how much the members disagree.
+
+The matching function between user and item embeddings is attention-based and
+non-linear, which also makes the match interpretable.

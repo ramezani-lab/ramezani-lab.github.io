@@ -50,7 +50,8 @@ export const educationSchema = z.object({
 export const experienceSchema = z.object({
   role: z.string().min(1),
   organization: z.string().min(1),
-  start: z.union([year, z.string().min(1)]),
+  /** Omitted when the exact years are not documented. */
+  start: z.union([year, z.string().min(1)]).optional(),
   end: z.union([year, z.string().min(1)]).optional(),
   description: z.string().optional(),
 });
