@@ -315,17 +315,13 @@ indexed at request time.
 pnpm build   # → out/
 ```
 
-On every push to `main`, GitHub Actions runs typecheck, lint and tests, builds
-the site and publishes `out/` to GitHub Pages.
-
-Repository settings → Pages → **Source: GitHub Actions**.
-
-| Repository variable     | When you need it                                                                 |
-| ----------------------- | -------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`  | Always — set it to the final origin, e.g. `https://daisy.ce.sharif.edu`          |
-| `NEXT_PUBLIC_BASE_PATH` | Only for a project page (`https://<org>.github.io/<repo>/`), set it to `/<repo>` |
-
-For a custom domain, add a `CNAME` file to `public/` with the domain in it.
+`Dockerfile` builds `out/` and serves it with `nginx-unprivileged`
+(`/healthz` for probes, port 8080). On every push to `main`, GitHub Actions
+(`.github/workflows/ci.yml`) runs typecheck, lint and tests, builds the image,
+pushes it to `ghcr.io/moeeinaali/daisy-lab-website`, then sets that image by
+digest on the `daisy-website` Deployment in the `moeein` namespace and waits
+for rollout — see [`me-infra`](https://github.com/MoeeinAali/me-infra) for the
+Kubernetes manifests. The site is served at `https://daisy.moeein.me`.
 
 ---
 
