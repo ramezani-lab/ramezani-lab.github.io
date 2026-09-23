@@ -29,7 +29,7 @@ export const SITE = {
   mission:
     "We build AI systems that treat data as a first-class citizen — learning to optimize databases and infrastructure, making data accessible through natural language, and understanding the networks that data lives in.",
   url: (
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://daisy-lab.github.io"
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://daisy-lab.github.io"
   ).replace(/\/+$/, ""),
   locale: "en_US",
   email: "maryam.ramezani@sharif.edu",

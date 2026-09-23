@@ -1,0 +1,28 @@
+# deps & build
+node_modules
+.next
+out
+coverage
+*.tsbuildinfo
+
+# git / editors / agents
+.git
+.github
+.claude
+.cursor
+.gitignore
+AGENTS.md
+
+# env & logs
+.env*
+*.log
+debug.log
+
+# docs
+README.md
+docs
+
+# local tooling
+.DS_Store
+.vscode
+.idea
