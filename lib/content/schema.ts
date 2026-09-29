@@ -26,6 +26,8 @@ export type Role = (typeof ROLES)[number];
 export const socialsSchema = z
   .object({
     scholar: z.url().optional(),
+    scopus: z.url().optional(),
+    researcherid: z.url().optional(),
     github: z.url().optional(),
     linkedin: z.url().optional(),
     x: z.url().optional(),
