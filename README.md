@@ -67,7 +67,7 @@ index, and regenerates the Open Graph images.
 
 | Variable                | Default                       | Purpose                                                                      |
 | ----------------------- | ----------------------------- | ---------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`  | `https://daisy-lab.github.io` | Canonical origin for sitemap, canonical URLs, Open Graph and JSON-LD         |
+| `NEXT_PUBLIC_SITE_URL`  | `https://ramezani-lab.github.io` | Canonical origin for sitemap, canonical URLs, Open Graph and JSON-LD         |
 | `NEXT_PUBLIC_BASE_PATH` | _(empty)_                     | Only when the site is served under a subpath, e.g. a GitHub **project** page |
 
 ---
@@ -315,13 +315,18 @@ indexed at request time.
 pnpm build   # → out/
 ```
 
-`Dockerfile` builds `out/` and serves it with `nginx-unprivileged`
-(`/healthz` for probes, port 8080). On every push to `main`, GitHub Actions
-(`.github/workflows/ci.yml`) runs typecheck, lint and tests, builds the image,
-pushes it to `ghcr.io/moeeinaali/daisy-lab-website`, then sets that image by
-digest on the `daisy-website` Deployment in the `moeein` namespace and waits
-for rollout — see [`me-infra`](https://github.com/MoeeinAali/me-infra) for the
-Kubernetes manifests. The site is served at `https://daisy.moeein.me`.
+The site is a static export (`output: "export"` → `out/`). On every push to
+`main`, GitHub Actions (`.github/workflows/ci.yml`) runs lint, typecheck and
+tests, builds the static site, then deploys `out/` to **GitHub Pages** via
+`actions/deploy-pages`. The live URL is
+[https://ramezani-lab.github.io](https://ramezani-lab.github.io).
+
+In the GitHub repo: **Settings → Pages → Build and deployment → Source:
+GitHub Actions**. Optional repo variables `NEXT_PUBLIC_SITE_URL` /
+`NEXT_PUBLIC_BASE_PATH` override the build defaults (root org site needs no
+base path).
+
+A `Dockerfile` is still available for local/nginx serving if needed.
 
 ---
 
