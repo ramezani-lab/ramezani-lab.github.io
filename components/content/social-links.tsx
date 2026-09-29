@@ -1,10 +1,12 @@
 import { FileText, Globe, Mail } from "lucide-react";
 import {
+  SiClarivate,
   SiDblp,
   SiGithub,
   SiGooglescholar,
   SiOrcid,
   SiResearchgate,
+  SiScopus,
   SiX,
 } from "@icons-pack/react-simple-icons";
 
@@ -22,13 +24,15 @@ const CHANNELS: Array<{
   Icon: IconComponent;
 }> = [
   { key: "email", label: "Email", Icon: Mail },
+  { key: "scopus", label: "Scopus", Icon: SiScopus },
   { key: "scholar", label: "Google Scholar", Icon: SiGooglescholar },
+  { key: "researcherid", label: "ResearcherID", Icon: SiClarivate },
+  { key: "orcid", label: "ORCID", Icon: SiOrcid },
+  { key: "researchgate", label: "ResearchGate", Icon: SiResearchgate },
   { key: "github", label: "GitHub", Icon: SiGithub },
   { key: "linkedin", label: "LinkedIn", Icon: LinkedInIcon },
   { key: "x", label: "X", Icon: SiX },
-  { key: "orcid", label: "ORCID", Icon: SiOrcid },
   { key: "dblp", label: "DBLP", Icon: SiDblp },
-  { key: "researchgate", label: "ResearchGate", Icon: SiResearchgate },
   { key: "website", label: "Personal website", Icon: Globe },
   { key: "cv", label: "CV", Icon: FileText },
 ];
