@@ -181,12 +181,14 @@ Runs in `prebuild` and `predev`, after `sync-assets` and before
 1. Read every file in `content/gallery/images/`.
 2. With **sharp** (new `devDependency`; already listed in
    `pnpm.onlyBuiltDependencies`), `.rotate()` to honour EXIF orientation, then
-   write to `public/content/gallery/`:
+   write to `public/photos/` — **not** `public/content/`, which `sync-assets`
+   deletes and rebuilds on every run, which would throw away the cache in
+   step 4:
    - `<id>-800.webp`, `<id>-1600.webp` — grid, as a `srcset`
    - `<id>.webp` — lightbox, longest edge capped at 2400
      A width is skipped when the source is narrower; nothing is ever upscaled.
-3. Write `public/content/gallery/manifest.json`: `id → { width, height }` plus
-   the generated file names.
+3. Write `public/photos/manifest.json`: `id → { width, height }` plus the
+   generated file names.
 4. Skip any photo whose outputs are newer than the source, so the dev loop stays
    fast.
 
@@ -195,8 +197,8 @@ the data file. A photo with no manifest entry fails the build with
 `run \`pnpm build:gallery\``, naming the file — the same contract as every other
 content error. New script: `"build:gallery"`.
 
-Generated output lands under `public/content/`, which `.gitignore` already
-excludes, so the repository carries only the originals.
+Generated output lands under `public/photos/`, added to `.gitignore`, so the
+repository carries only the originals.
 
 The pure parts — `thumbnailPlan(width)` (which widths to emit) and the
 id/manifest merge — live in `lib/images.ts` and `lib/content/gallery.ts` and are
