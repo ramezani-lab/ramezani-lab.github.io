@@ -12,10 +12,11 @@
     "test:watch": "vitest",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "prebuild": "tsx scripts/sync-assets.ts && tsx scripts/build-search-index.ts && tsx scripts/generate-og.ts",
-    "predev": "tsx scripts/sync-assets.ts && tsx scripts/build-search-index.ts",
+    "prebuild": "tsx scripts/sync-assets.ts && tsx scripts/build-gallery-images.ts && tsx scripts/build-search-index.ts && tsx scripts/generate-og.ts",
+    "predev": "tsx scripts/sync-assets.ts && tsx scripts/build-gallery-images.ts && tsx scripts/build-search-index.ts",
     "sync:assets": "tsx scripts/sync-assets.ts",
     "build:search": "tsx scripts/build-search-index.ts",
+    "build:gallery": "tsx scripts/build-gallery-images.ts",
     "generate:og": "tsx scripts/generate-og.ts"
   },
   "dependencies": {
@@ -63,6 +64,7 @@
     "prettier": "^3.9.6",
     "satori": "^0.33.4",
     "shadcn": "^4.19.0",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4",
     "tsx": "^4.19.2",
     "typescript": "^5",

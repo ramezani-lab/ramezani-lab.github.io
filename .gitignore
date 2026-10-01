@@ -8,3 +8,4 @@ next-env.d.ts
 public/content/
 public/search-index.json
 public/og/
+public/photos/
