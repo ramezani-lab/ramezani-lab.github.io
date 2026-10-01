@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildGraph } from "./content/graph";
-import { fixture } from "./content/testing";
+import { fixture, photo } from "./content/testing";
 import { collectSearchDocs } from "./search-docs";
 
 describe("collectSearchDocs", () => {
@@ -62,5 +62,35 @@ describe("collectSearchDocs", () => {
       (d) => d.id === "person:ali",
     )!;
     expect(doc.text).toBe("Bio Hi there");
+  });
+
+  it("indexes each gallery photo under its caption", () => {
+    const docs = collectSearchDocs(
+      buildGraph(
+        fixture({
+          photos: [
+            photo("retreat.jpg", {
+              caption: "The lab at the spring retreat",
+              date: "2026-02-01",
+              location: "Tehran",
+              description: "Twelve of us on the steps.",
+              tags: ["LLMs"],
+              news: "n1",
+            }),
+          ],
+        }),
+      ),
+    );
+
+    const doc = docs.find((entry) => entry.id === "photo:retreat");
+    expect(doc).toMatchObject({
+      kind: "photo",
+      url: "/gallery#retreat",
+      title: "The lab at the spring retreat",
+      tags: ["LLMs"],
+      text: "Twelve of us on the steps.",
+    });
+    expect(doc?.description).toContain("Tehran");
+    expect(doc?.related).toEqual(["N1"]);
   });
 });

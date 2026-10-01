@@ -14,6 +14,7 @@ export const SEARCH_KINDS = [
   "paper",
   "person",
   "news",
+  "photo",
   "course",
   "position",
   "tag",

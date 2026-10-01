@@ -1,4 +1,5 @@
 import { courseSlug } from "./content/courses";
+import { formatDate } from "./format";
 import { ROLE_LABELS } from "./content/people";
 import type { ContentGraph } from "./content/schema";
 import type { SearchDoc } from "./search";
@@ -98,6 +99,21 @@ export function collectSearchDocs(graph: ContentGraph): SearchDoc[] {
       ],
       tags: item.tags,
       text: mdxToPlainText(item.body),
+    });
+  }
+
+  for (const photo of graph.photos) {
+    docs.push({
+      id: `photo:${photo.id}`,
+      kind: "photo",
+      url: photo.url,
+      title: photo.caption,
+      description: [formatDate(photo.date), photo.location]
+        .filter(Boolean)
+        .join(" · "),
+      related: photo.news ? [photo.news.title] : [],
+      tags: photo.tags,
+      text: photo.description ?? "",
     });
   }
 

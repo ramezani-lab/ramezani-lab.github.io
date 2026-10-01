@@ -29,6 +29,7 @@ const GROUP_LABELS: Record<SearchKind, string> = {
   paper: "Publications",
   person: "People",
   news: "News",
+  photo: "Gallery",
   course: "Teaching",
   position: "Open positions",
   tag: "Topics",
