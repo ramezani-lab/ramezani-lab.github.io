@@ -1,6 +1,8 @@
+import type { PhotoSummary } from "@/components/gallery/gallery-grid";
 import type { PaperSummary } from "@/components/papers/paper-browser";
 
-import type { Paper } from "./schema";
+import { slugify } from "../slug";
+import type { GalleryPhoto, Paper } from "./schema";
 
 /**
  * Projects a paper into the plain object the client filter receives.
@@ -29,5 +31,24 @@ export function toPaperSummary(paper: Paper): PaperSummary {
     tags: paper.tags,
     areas: paper.areas.map((area) => ({ slug: area.slug, title: area.title })),
     links: paper.links,
+  };
+}
+
+/** Projects a photo into the plain object the client grid receives. */
+export function toPhotoSummary(photo: GalleryPhoto): PhotoSummary {
+  return {
+    id: photo.id,
+    caption: photo.caption,
+    date: photo.date,
+    ...(photo.description ? { description: photo.description } : {}),
+    ...(photo.location ? { location: photo.location } : {}),
+    width: photo.width,
+    height: photo.height,
+    full: photo.full,
+    renditions: photo.renditions,
+    tags: photo.tags.map((name) => ({ name, url: `/tags/${slugify(name)}` })),
+    ...(photo.news
+      ? { news: { title: photo.news.title, url: photo.news.url } }
+      : {}),
   };
 }
