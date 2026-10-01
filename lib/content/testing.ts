@@ -2,8 +2,10 @@
  * In-memory content for unit tests of the graph and everything built on it.
  * Not imported by application code.
  */
+import { photoId } from "./gallery";
 import type { RawContent } from "./read";
 import {
+  galleryPhotoSchema,
   newsFrontmatterSchema,
   paperFrontmatterSchema,
   personFrontmatterSchema,
@@ -33,6 +35,24 @@ export const paper = (slug: string, extra: Record<string, unknown>) =>
       ...extra,
     }),
   );
+
+export const photo = (image: string, extra: Record<string, unknown> = {}) => {
+  const data = galleryPhotoSchema.parse({
+    image,
+    caption: image,
+    date: "2026-01-01",
+    ...extra,
+  });
+  const id = photoId(image);
+  return {
+    ...data,
+    id,
+    width: 1600,
+    height: 1200,
+    full: `/photos/${id}.webp`,
+    renditions: [{ width: 800, url: `/photos/${id}-800.webp` }],
+  };
+};
 
 export function fixture(over: Partial<RawContent> = {}): RawContent {
   return {
@@ -83,6 +103,7 @@ export function fixture(over: Partial<RawContent> = {}): RawContent {
       ),
     ],
     courses: [],
+    photos: [],
     ...over,
   };
 }

@@ -3,9 +3,12 @@ import { join, relative } from "node:path";
 import matter from "gray-matter";
 
 import { COURSES } from "@/content/data/courses";
+import { GALLERY } from "@/content/data/gallery";
 
+import { resolvePhotos } from "./gallery";
 import {
   courseSchema,
+  galleryPhotoSchema,
   newsFrontmatterSchema,
   paperFrontmatterSchema,
   personFrontmatterSchema,
@@ -15,7 +18,9 @@ import {
   type NewsFrontmatter,
   type PaperFrontmatter,
   type PersonFrontmatter,
+  type PhotoManifest,
   type PositionFrontmatter,
+  type RawPhoto,
   type ResearchFrontmatter,
 } from "./schema";
 
@@ -36,6 +41,7 @@ export interface RawContent {
   research: RawDoc<ResearchFrontmatter>[];
   positions: RawDoc<PositionFrontmatter>[];
   courses: Course[];
+  photos: RawPhoto[];
 }
 
 function listDirs(dir: string): string[] {
@@ -104,6 +110,37 @@ function readCollection<T>(
   return docs;
 }
 
+const MANIFEST_PATH = join(process.cwd(), "public", "photos", "manifest.json");
+
+/**
+ * The gallery: authored metadata from `content/data/gallery.ts`, merged with
+ * the sizes `scripts/build-gallery-images.ts` recorded.
+ */
+function readPhotos(): RawPhoto[] {
+  const entries = GALLERY.map((entry, index) => {
+    try {
+      return galleryPhotoSchema.parse(entry);
+    } catch (error) {
+      throw new Error(
+        `invalid photo #${index + 1} in content/data/gallery.ts:\n${describeError(error)}`,
+      );
+    }
+  });
+
+  if (entries.length === 0) return [];
+
+  if (!existsSync(MANIFEST_PATH)) {
+    throw new Error(
+      "content/data/gallery.ts lists photos but public/photos/manifest.json is missing — run `pnpm build:gallery`",
+    );
+  }
+
+  const manifest = JSON.parse(
+    readFileSync(MANIFEST_PATH, "utf8"),
+  ) as PhotoManifest;
+  return resolvePhotos(entries, manifest);
+}
+
 export function readContent(root: string = CONTENT_DIR): RawContent {
   return {
     people: readCollection(root, "people", (d) =>
@@ -128,5 +165,6 @@ export function readContent(root: string = CONTENT_DIR): RawContent {
         );
       }
     }),
+    photos: readPhotos(),
   };
 }

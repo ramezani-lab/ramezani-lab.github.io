@@ -2,6 +2,7 @@ import { getGraph } from "./graph";
 import { groupPeople } from "./people";
 import type {
   Course,
+  GalleryPhoto,
   NewsItem,
   Paper,
   Person,
@@ -36,6 +37,15 @@ export function getCurrentMembers(): Person[] {
   return getPeopleGroups()
     .filter((group) => group.role !== "alumni")
     .flatMap((group) => group.people);
+}
+
+/** Gallery photographs, newest first. */
+export function getAllPhotos(): GalleryPhoto[] {
+  return getGraph().photos;
+}
+
+export function getPhoto(id: string): GalleryPhoto | undefined {
+  return getGraph().photosById.get(id);
 }
 
 export function getAllPapers(): Paper[] {

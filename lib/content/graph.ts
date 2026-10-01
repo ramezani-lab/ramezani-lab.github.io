@@ -5,6 +5,7 @@ import { buildBibtex } from "./bibtex";
 import { readContent, type RawContent, type RawDoc } from "./read";
 import type {
   ContentGraph,
+  GalleryPhoto,
   NewsItem,
   Paper,
   PaperAuthor,
@@ -15,15 +16,24 @@ import type {
 } from "./schema";
 
 /** Throws a build error that names the offending file and field. */
+function brokenRef(
+  file: string,
+  field: string,
+  value: string,
+  kind: string,
+): never {
+  throw new Error(
+    `broken reference in ${file}:\n  ${field}: no ${kind} with id "${value}"`,
+  );
+}
+
 function referenceError(
   doc: RawDoc<unknown>,
   field: string,
   value: string,
   kind: string,
 ): never {
-  throw new Error(
-    `broken reference in ${doc.file}:\n  ${field}: no ${kind} with id "${value}"`,
-  );
+  return brokenRef(doc.file, field, value, kind);
 }
 
 /**
@@ -166,6 +176,7 @@ export function buildGraph(raw: RawContent): ContentGraph {
           papersBySlug.get(slug) ??
           referenceError(doc, "papers", slug, "paper"),
       ),
+      photos: [],
       tags: fm.tags,
       body: doc.body,
     });
@@ -182,6 +193,32 @@ export function buildGraph(raw: RawContent): ContentGraph {
     ]);
     for (const member of involved) member.news.push(item);
   }
+
+  // ---- Gallery ------------------------------------------------------------
+  // Already newest first: `resolvePhotos` sorts, so the graph only links.
+  const photosById = new Map<string, GalleryPhoto>();
+  for (const entry of raw.photos) {
+    const { news: newsSlug, ...rest } = entry;
+    const photo: GalleryPhoto = {
+      ...rest,
+      url: `/gallery#${entry.id}`,
+      ...(newsSlug
+        ? {
+            news:
+              newsBySlug.get(newsSlug) ??
+              brokenRef(
+                "content/data/gallery.ts",
+                "news",
+                newsSlug,
+                "news item",
+              ),
+          }
+        : {}),
+    };
+    photosById.set(photo.id, photo);
+  }
+  const photos = [...photosById.values()];
+  for (const photo of photos) photo.news?.photos.push(photo);
 
   // ---- Positions ----------------------------------------------------------
   const positions: Position[] = raw.positions
@@ -224,6 +261,7 @@ export function buildGraph(raw: RawContent): ContentGraph {
         url: `/tags/${slug}`,
         papers: [],
         news: [],
+        photos: [],
         count: 0,
       };
       tagsBySlug.set(slug, tag);
@@ -244,6 +282,13 @@ export function buildGraph(raw: RawContent): ContentGraph {
       tag.count++;
     }
   }
+  for (const photo of photos) {
+    for (const name of photo.tags) {
+      const tag = tagFor(name);
+      tag.photos.push(photo);
+      tag.count++;
+    }
+  }
   const tags = [...tagsBySlug.values()].sort(
     (a, b) => b.count - a.count || a.name.localeCompare(b.name),
   );
@@ -258,6 +303,8 @@ export function buildGraph(raw: RawContent): ContentGraph {
     papersBySlug,
     news,
     newsBySlug,
+    photos,
+    photosById,
     areas,
     areasBySlug,
     positions,
