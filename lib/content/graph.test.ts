@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { buildGraph } from "./graph";
 import { newsFrontmatterSchema, researchFrontmatterSchema } from "./schema";
-import { doc, fixture, paper, person } from "./testing";
+import { doc, fixture, paper, person, photo } from "./testing";
 
 describe("buildGraph", () => {
   it("resolves member and external authors in order", () => {
@@ -130,5 +130,47 @@ describe("courses", () => {
     expect(() =>
       buildGraph(fixture({ courses: [duplicate, { ...duplicate }] })),
     ).toThrow(/duplicate course/);
+  });
+});
+
+describe("gallery", () => {
+  it("links a photo to its news item and its tags", () => {
+    const graph = buildGraph(
+      fixture({
+        photos: [
+          photo("retreat.jpg", {
+            news: "n1",
+            tags: ["LLMs"],
+            date: "2026-02-01",
+          }),
+        ],
+      }),
+    );
+
+    expect(graph.photos.map((p) => p.id)).toEqual(["retreat"]);
+    expect(graph.photosById.get("retreat")?.url).toBe("/gallery#retreat");
+    expect(graph.newsBySlug.get("n1")?.photos.map((p) => p.id)).toEqual([
+      "retreat",
+    ]);
+
+    const tag = graph.tagsBySlug.get("llms");
+    expect(tag?.photos.map((p) => p.id)).toEqual(["retreat"]);
+    // two papers, one news item and now one photo
+    expect(tag?.count).toBe(4);
+  });
+
+  it("fails on a photo that points at a news item that does not exist", () => {
+    expect(() =>
+      buildGraph(fixture({ photos: [photo("retreat.jpg", { news: "nope" })] })),
+    ).toThrow(
+      /content\/data\/gallery\.ts[\s\S]*news: no news item with id "nope"/,
+    );
+  });
+
+  it("leaves news items and tags with empty photo lists when there is no gallery", () => {
+    const graph = buildGraph(fixture());
+    expect(graph.photos).toEqual([]);
+    expect(graph.newsBySlug.get("n1")?.photos).toEqual([]);
+    expect(graph.tagsBySlug.get("llms")?.photos).toEqual([]);
   });
 });
