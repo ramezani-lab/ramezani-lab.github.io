@@ -201,6 +201,39 @@ export const positionFrontmatterSchema = z.object({
   order: z.number().int().default(0),
 });
 
+// ---- Gallery ---------------------------------------------------------------
+
+export const galleryPhotoSchema = z.object({
+  /** File name inside content/gallery/images/. */
+  image: z.string().min(1),
+  caption: z.string().min(1),
+  date: isoDate,
+  description: z.string().optional(),
+  location: z.string().optional(),
+  tags: z.array(z.string().min(1)).default([]),
+  /** Slug of a related news item; checked when the graph is built. */
+  news: z.string().min(1).optional(),
+});
+
+/** One generated width of a photo. */
+export interface PhotoRendition {
+  width: number;
+  url: string;
+}
+
+/** What the image pipeline records for a photo. */
+export interface PhotoManifestEntry {
+  /** Intrinsic size of the source, with EXIF rotation applied. */
+  width: number;
+  height: number;
+  /** The lightbox image. */
+  full: string;
+  /** Grid widths, smallest first. */
+  renditions: PhotoRendition[];
+}
+
+export type PhotoManifest = Record<string, PhotoManifestEntry>;
+
 // ---- Courses ---------------------------------------------------------------
 
 export const courseSchema = z.object({
@@ -223,6 +256,8 @@ export type PaperFrontmatter = z.infer<typeof paperFrontmatterSchema>;
 export type NewsFrontmatter = z.infer<typeof newsFrontmatterSchema>;
 export type ResearchFrontmatter = z.infer<typeof researchFrontmatterSchema>;
 export type PositionFrontmatter = z.infer<typeof positionFrontmatterSchema>;
+export type GalleryPhotoInput = z.input<typeof galleryPhotoSchema>;
+export type GalleryPhotoData = z.infer<typeof galleryPhotoSchema>;
 export type CourseInput = z.input<typeof courseSchema>;
 export type Course = z.infer<typeof courseSchema>;
 
@@ -276,8 +311,20 @@ export interface NewsItem {
   cover?: string;
   people: Person[];
   papers: Paper[];
+  photos: GalleryPhoto[];
   tags: string[];
   body: string;
+}
+
+/** A photo with its file-derived id and generated sizes, before graph linking. */
+export interface RawPhoto extends GalleryPhotoData, PhotoManifestEntry {
+  id: string;
+}
+
+export interface GalleryPhoto extends Omit<RawPhoto, "news"> {
+  /** Deep link that opens this photo in the lightbox. */
+  url: string;
+  news?: NewsItem;
 }
 
 export interface ResearchArea {
@@ -305,6 +352,7 @@ export interface Tag {
   url: string;
   papers: Paper[];
   news: NewsItem[];
+  photos: GalleryPhoto[];
   count: number;
 }
 
@@ -316,6 +364,8 @@ export interface ContentGraph {
   papersBySlug: Map<string, Paper>;
   news: NewsItem[];
   newsBySlug: Map<string, NewsItem>;
+  photos: GalleryPhoto[];
+  photosById: Map<string, GalleryPhoto>;
   areas: ResearchArea[];
   areasBySlug: Map<string, ResearchArea>;
   positions: Position[];
