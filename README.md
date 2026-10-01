@@ -51,24 +51,25 @@ index, and regenerates the Open Graph images.
 
 ### Scripts
 
-| Script              | What it does                              |
-| ------------------- | ----------------------------------------- |
-| `pnpm dev`          | Dev server                                |
-| `pnpm build`        | Static export → `out/`                    |
-| `pnpm test`         | Vitest                                    |
-| `pnpm typecheck`    | `tsc --noEmit`                            |
-| `pnpm lint`         | ESLint                                    |
-| `pnpm prettier`     | Format the repo (`*.mdx` is ignored)      |
-| `pnpm sync:assets`  | Copy content images into `public/content` |
-| `pnpm build:search` | Rebuild `public/search-index.json`        |
-| `pnpm generate:og`  | Regenerate Open Graph images              |
+| Script               | What it does                                      |
+| -------------------- | ------------------------------------------------- |
+| `pnpm dev`           | Dev server                                        |
+| `pnpm build`         | Static export → `out/`                            |
+| `pnpm test`          | Vitest                                            |
+| `pnpm typecheck`     | `tsc --noEmit`                                    |
+| `pnpm lint`          | ESLint                                            |
+| `pnpm prettier`      | Format the repo (`*.mdx` is ignored)              |
+| `pnpm sync:assets`   | Copy content images into `public/content`         |
+| `pnpm build:search`  | Rebuild `public/search-index.json`                |
+| `pnpm build:gallery` | Generate gallery renditions into `public/photos/` |
+| `pnpm generate:og`   | Regenerate Open Graph images                      |
 
 ### Environment
 
-| Variable                | Default                       | Purpose                                                                      |
-| ----------------------- | ----------------------------- | ---------------------------------------------------------------------------- |
+| Variable                | Default                          | Purpose                                                                      |
+| ----------------------- | -------------------------------- | ---------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_SITE_URL`  | `https://ramezani-lab.github.io` | Canonical origin for sitemap, canonical URLs, Open Graph and JSON-LD         |
-| `NEXT_PUBLIC_BASE_PATH` | _(empty)_                     | Only when the site is served under a subpath, e.g. a GitHub **project** page |
+| `NEXT_PUBLIC_BASE_PATH` | _(empty)_                        | Only when the site is served under a subpath, e.g. a GitHub **project** page |
 
 ---
 
@@ -78,6 +79,7 @@ index, and regenerates the Open Graph images.
 app/                 Routes (App Router)
 components/brand/    DAISY mark, Sharif emblem
 components/cards/    Person, paper, news and research-area cards
+components/gallery/  Photo grid and lightbox
 components/content/  MDX and page building blocks
 components/layout/   Header, footer, search dialog, theme controls
 components/papers/   The client-side publication filter
@@ -244,6 +246,39 @@ A typed array; each entry has `code`, `title`, `level`
 (`undergraduate | graduate`), `description` and `offerings`
 (`{ term, url? }`). Two courses must not share the same code **and** title.
 
+### A photograph — `content/data/gallery.ts`
+
+Put the image file in `content/gallery/images/`, then add an entry whose
+`image` is that file name:
+
+```ts
+{
+  image: "2026-05-12-thesis-defense.jpg",
+  caption: "Ali Example defends his MSc thesis",   // required
+  date: "2026-05-12",                              // required, ISO
+  description: "An optional paragraph, shown in the lightbox.",
+  location: "Department of Computer Engineering, Sharif University",
+  tags: ["Graph Mining"],        // joins the site's topic pages
+  news: "a-news-slug",           // must be an existing content/news/ folder
+}
+```
+
+Only `caption` and `date` are required. The gallery is ordered by date,
+newest first, whatever the order in the file.
+
+A photo's id — and therefore its link, `/gallery#<id>` — comes from the file
+name, so **renaming a file changes its link**, while rewording a caption does
+not. Two files whose names slugify to the same id fail the build.
+
+`pnpm build:gallery` reads every file in `content/gallery/images/` and writes
+WebP renditions and `manifest.json` into `public/photos/`. It runs inside
+`prebuild` and `predev`, so a normal `pnpm build` or `pnpm dev` picks up new
+photos on its own; run it directly when you have added files and want the
+gallery to update without a full build. Re-encoding is skipped for files that
+have not changed, and the generated directory is gitignored — the repository
+carries only the originals. A file in the folder that no entry mentions is
+ignored.
+
 ### MDX components (global — no imports)
 
 ```mdx
@@ -268,6 +303,9 @@ Replace or delete them before publishing:
 - `content/news/sample-lab-opening`
 - `content/data/courses.ts` — two placeholder courses
 - `content/positions/*` — review the wording; it describes how to apply
+
+The gallery starts empty by design: `content/data/gallery.ts` has no entries
+and the `Gallery` item stays out of the navigation until you add one.
 
 ---
 
@@ -305,7 +343,8 @@ the graph, so searching an author finds their papers.
 
 The browser fetches that file the first time the search dialog opens (⌘K, Ctrl+K
 or `/`), then queries it locally with prefix and fuzzy matching. Nothing is
-indexed at request time.
+indexed at request time. A photograph is indexed under its caption and opens
+from its result as `/gallery#<id>`.
 
 ---
 

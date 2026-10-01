@@ -19,6 +19,7 @@ export const ogImage = {
   paper: (slug: string) => `/og/paper-${slug}.png`,
   person: (id: string) => `/og/person-${id}.png`,
   news: (slug: string) => `/og/news-${slug}.png`,
+  gallery: () => "/og/gallery.png",
 };
 
 interface MetadataInput {

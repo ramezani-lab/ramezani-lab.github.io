@@ -11,11 +11,13 @@ import { fileURLToPath } from "node:url";
 
 import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
+import sharp from "sharp";
 
 import {
   getAllNews,
   getAllPapers,
   getAllPeople,
+  getAllPhotos,
   ROLE_LABELS,
 } from "../lib/content";
 import { formatDate } from "../lib/format";
@@ -69,6 +71,27 @@ function loadImage(publicPath?: string): string | undefined {
     const buffer = readFileSync(join(PUBLIC_DIR, publicPath.slice(1)));
     const mime = extension === "jpg" ? "jpeg" : extension;
     return `data:image/${mime};base64,${buffer.toString("base64")}`;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Loads a gallery photo as a JPEG data URI.
+ *
+ * The generated renditions are WebP, which Satori's rasterizer cannot decode,
+ * so the card is built from the original file instead.
+ */
+async function loadPhoto(fileName: string): Promise<string | undefined> {
+  try {
+    const buffer = await sharp(
+      join(ROOT, "content", "gallery", "images", fileName),
+    )
+      .rotate()
+      .resize({ width: 600, withoutEnlargement: true })
+      .jpeg({ quality: 80 })
+      .toBuffer();
+    return `data:image/jpeg;base64,${buffer.toString("base64")}`;
   } catch {
     return undefined;
   }
@@ -282,6 +305,21 @@ async function main() {
     "default.png",
   );
   count++;
+
+  const photos = getAllPhotos();
+  if (photos.length > 0) {
+    await render(
+      {
+        kind: "Gallery",
+        title: "Photographs from the lab",
+        subtitle: photos[0].caption,
+        meta: formatDate(photos[0].date),
+        image: await loadPhoto(photos[0].image),
+      },
+      "gallery.png",
+    );
+    count++;
+  }
 
   for (const paper of getAllPapers()) {
     await render(

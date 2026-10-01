@@ -3,10 +3,12 @@ import { Mail, MapPin, Phone } from "lucide-react";
 
 import { DaisyMark } from "@/components/brand/daisy-mark";
 import { SharifLogo } from "@/components/brand/sharif-logo";
-import { NAV_ITEMS, SITE } from "@/lib/site";
+import { getAllPhotos } from "@/lib/content";
+import { navItems, SITE } from "@/lib/site";
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const items = navItems(getAllPhotos().length > 0);
 
   return (
     <footer className="mt-24 bg-footer text-footer-foreground">
@@ -27,7 +29,7 @@ export function Footer() {
           <nav aria-label="Footer">
             <p className="mb-4 text-sm font-semibold">Sections</p>
             <ul className="space-y-2.5 text-sm">
-              {NAV_ITEMS.map((item) => (
+              {items.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}

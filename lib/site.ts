@@ -61,6 +61,14 @@ export const NAV_ITEMS = [
   { href: "/papers", label: "Publications" },
   { href: "/people", label: "People" },
   { href: "/news", label: "News" },
+  { href: "/gallery", label: "Gallery" },
   { href: "/teaching", label: "Teaching" },
   { href: "/join", label: "Join Us" },
 ] as const;
+
+export type NavItem = { href: string; label: string };
+
+/** An empty gallery should not advertise itself in the navigation. */
+export function navItems(hasPhotos: boolean): NavItem[] {
+  return NAV_ITEMS.filter((item) => hasPhotos || item.href !== "/gallery");
+}

@@ -4,9 +4,10 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { ThemeScript } from "@/components/layout/theme-script";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { getAllPhotos } from "@/lib/content";
 import { fontVariables } from "@/lib/fonts";
 import { absoluteUrl, ogImage } from "@/lib/seo";
-import { SITE } from "@/lib/site";
+import { navItems, SITE } from "@/lib/site";
 
 import "./globals.css";
 import "katex/dist/katex.min.css";
@@ -68,7 +69,7 @@ export default function RootLayout({
           >
             Skip to content
           </a>
-          <Header />
+          <Header items={navItems(getAllPhotos().length > 0)} />
           <main id="main">{children}</main>
           <Footer />
         </TooltipProvider>

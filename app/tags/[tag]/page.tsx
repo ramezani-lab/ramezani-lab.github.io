@@ -6,6 +6,7 @@ import { NewsCard } from "@/components/cards/news-card";
 import { PaperCard } from "@/components/cards/paper-card";
 import { PageHeader } from "@/components/layout/page-header";
 import { getAllTags, getTag } from "@/lib/content";
+import { assetPath } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
 
 export const dynamicParams = false;
@@ -69,6 +70,32 @@ export default async function TagPage({
             {tag.news.map((item) => (
               <li key={item.slug}>
                 <NewsCard item={item} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {tag.photos.length > 0 ? (
+        <section className="border-t py-10">
+          <h2 className="text-xl font-semibold tracking-tight">Gallery</h2>
+          <ul className="mt-4 grid gap-4 sm:grid-cols-3">
+            {tag.photos.map((photo) => (
+              <li key={photo.id}>
+                <Link href={photo.url} className="group block">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- static export: no optimizer */}
+                  <img
+                    src={assetPath(photo.renditions[0].url)}
+                    alt={photo.caption}
+                    width={photo.width}
+                    height={photo.height}
+                    loading="lazy"
+                    className="w-full rounded-md border bg-card transition-opacity group-hover:opacity-90"
+                  />
+                  <p className="mt-2 text-sm text-muted-foreground transition-colors group-hover:text-foreground">
+                    {photo.caption}
+                  </p>
+                </Link>
               </li>
             ))}
           </ul>
