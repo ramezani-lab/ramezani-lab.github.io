@@ -4,14 +4,18 @@ import { GalleryGrid } from "@/components/gallery/gallery-grid";
 import { PageHeader } from "@/components/layout/page-header";
 import { getAllPhotos } from "@/lib/content";
 import { toPhotoSummary } from "@/lib/content/summaries";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, ogImage } from "@/lib/seo";
 
-export const metadata: Metadata = buildMetadata({
-  title: "Gallery",
-  description:
-    "Photographs from DAISY Lab: talks, defences, workshops and everyday work in the lab.",
-  path: "/gallery",
-});
+export function generateMetadata(): Metadata {
+  const photos = getAllPhotos();
+  return buildMetadata({
+    title: "Gallery",
+    description:
+      "Photographs from DAISY Lab: talks, defences, workshops and everyday work in the lab.",
+    path: "/gallery",
+    ...(photos.length > 0 ? { image: ogImage.gallery() } : {}),
+  });
+}
 
 export default function GalleryPage() {
   const photos = getAllPhotos();

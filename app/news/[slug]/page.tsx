@@ -109,6 +109,34 @@ export default async function NewsItemPage({
         </p>
       ) : null}
 
+      {item.photos.length > 0 ? (
+        <section className="mt-12 border-t pt-4">
+          <h2 className="pt-6 text-lg font-semibold tracking-tight">
+            Photographs
+          </h2>
+          <ul className="mt-4 grid gap-4 sm:grid-cols-3">
+            {item.photos.map((photo) => (
+              <li key={photo.id}>
+                <Link href={photo.url} className="group block">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- static export: no optimizer */}
+                  <img
+                    src={assetPath(photo.renditions[0].url)}
+                    alt={photo.caption}
+                    width={photo.width}
+                    height={photo.height}
+                    loading="lazy"
+                    className="w-full rounded-md border bg-card transition-opacity group-hover:opacity-90"
+                  />
+                  <p className="mt-2 text-sm text-muted-foreground transition-colors group-hover:text-foreground">
+                    {photo.caption}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       {item.papers.length > 0 ? (
         <section className="mt-12 border-t pt-4">
           <h2 className="pt-6 text-lg font-semibold tracking-tight">

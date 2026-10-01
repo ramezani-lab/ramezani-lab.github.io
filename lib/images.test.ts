@@ -19,10 +19,12 @@ describe("thumbnailPlan", () => {
 
 describe("orientedSize", () => {
   it("leaves an unrotated image alone", () => {
-    expect(orientedSize({ width: 4032, height: 3024, orientation: 1 })).toEqual({
-      width: 4032,
-      height: 3024,
-    });
+    expect(orientedSize({ width: 4032, height: 3024, orientation: 1 })).toEqual(
+      {
+        width: 4032,
+        height: 3024,
+      },
+    );
   });
 
   it("assumes no rotation when the file carries no orientation tag", () => {
@@ -42,10 +44,12 @@ describe("orientedSize", () => {
   });
 
   it("does not swap for the mirrored orientations below 5", () => {
-    expect(orientedSize({ width: 4032, height: 3024, orientation: 2 })).toEqual({
-      width: 4032,
-      height: 3024,
-    });
+    expect(orientedSize({ width: 4032, height: 3024, orientation: 2 })).toEqual(
+      {
+        width: 4032,
+        height: 3024,
+      },
+    );
   });
 });
 

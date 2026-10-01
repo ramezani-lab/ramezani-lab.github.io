@@ -12,7 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { NAV_ITEMS, SITE } from "@/lib/site";
+import { SITE, type NavItem } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 import { Logo } from "./logo";
@@ -44,7 +44,7 @@ function NavLink({
       onClick={onNavigate}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "relative rounded-md px-2.5 py-1.5 text-sm transition-colors",
+        "relative whitespace-nowrap rounded-md px-2 py-1.5 text-sm transition-colors",
         active
           ? "font-semibold text-foreground"
           : "text-muted-foreground hover:text-foreground",
@@ -53,23 +53,23 @@ function NavLink({
     >
       {label}
       {active ? (
-        <span className="absolute inset-x-2.5 -bottom-[3px] hidden h-[3px] rounded-full bg-primary lg:block" />
+        <span className="absolute inset-x-2 -bottom-[3px] hidden h-[3px] rounded-full bg-primary lg:block" />
       ) : null}
     </Link>
   );
 }
 
-export function Header() {
+export function Header({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4">
-        <Logo />
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 lg:gap-5">
+        <Logo className="shrink-0" />
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
-          {NAV_ITEMS.map((item) => (
+          {items.map((item) => (
             <NavLink key={item.href} {...item} pathname={pathname} />
           ))}
         </nav>
@@ -95,7 +95,7 @@ export function Header() {
             <SheetContent side="right" className="w-72">
               <SheetTitle className="sr-only">{SITE.fullName}</SheetTitle>
               <nav className="flex flex-col gap-1 p-4 pt-12" aria-label="Site">
-                {NAV_ITEMS.map((item) => (
+                {items.map((item) => (
                   <NavLink
                     key={item.href}
                     {...item}

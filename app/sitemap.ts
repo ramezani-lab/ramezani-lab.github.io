@@ -5,6 +5,7 @@ import {
   getAllNews,
   getAllPapers,
   getAllPeople,
+  getAllPhotos,
   getAllTags,
 } from "@/lib/content";
 import { absoluteUrl } from "@/lib/seo";
@@ -30,6 +31,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl("/join"), priority: 0.7, changeFrequency: "monthly" },
     { url: absoluteUrl("/tags"), priority: 0.4, changeFrequency: "monthly" },
   ];
+  if (getAllPhotos().length > 0) {
+    pages.push({
+      url: absoluteUrl("/gallery"),
+      priority: 0.5,
+      changeFrequency: "monthly",
+    });
+  }
+
   const staticRoutes: MetadataRoute.Sitemap = pages.map((entry) => ({
     ...entry,
     lastModified: today,
